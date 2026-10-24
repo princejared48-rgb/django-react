@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Accueil | Appretruct</title>
+
+    <!-- Bootstrap 5.0.2 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        crossorigin="anonymous"
+    >
+
+    <!-- Police Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- Styles de la section inscription -->
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: #243852;
+        }
+
+        .section-inscription {
+            padding: 70px 20px;
+            margin-top: 50px;
+            text-align: center;
+            color: white;
+            background: linear-gradient(
+                110deg,
+                #081d3c,
+                #124f91,
+                #1d8ed1
+            );
+        }
+
+        .section-inscription h2 {
+            margin-bottom: 15px;
+            color: white;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .section-inscription p {
+            max-width: 650px;
+            margin: 0 auto 25px;
+            color: #f0f6ff;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .bouton-inscription {
+            display: inline-block;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            background-color: #ff6b35;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .bouton-inscription:hover {
+            background-color: #e85a25;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 576px) {
+            .section-inscription {
+                padding: 45px 18px;
+            }
+
+            .section-inscription h2 {
+                font-size: 23px;
+            }
+
+            .section-inscription p {
+                font-size: 13px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Header React -->
+    <div id="header"></div>
+
+    <main>
+
+        <!-- Section Carrousel -->
+        <section id="accueil-carrousel" class="container-fluid carrosel">
+            <div id="carrosel"></div>
+        </section>
+
+        <!-- Section des formations -->
+        <section id="formations">
+            <div id="formations-root"></div>
+        </section>
+
+        <!-- Section inscription après les cartes de formation -->
+        <section class="section-inscription">
+            <div class="container">
+
+                <h2>Prêt à rejoindre Appretruct ?</h2>
+
+                <p>
+                    Crée ton compte pour découvrir les opportunités,
+                    développer tes compétences et accéder aux services
+                    proposés sur notre plateforme.
+                </p>
+
+                <!-- Bouton vers la page d'inscription -->
+                <a
+                    href="/inscription/inscription.html"
+                    class="bouton-inscription"
+                >
+                    <i class="fas fa-user-plus me-2"></i>
+                    S'inscrire maintenant
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer React -->
+    <div id="footer"></div>
+
+    <!-- Chargement des composants React -->
+    <script type="module">
+
+        import React from "react";
+        import { createRoot } from "react-dom/client";
+
+        import Header from "../src/total/header.jsx";
+        import Footer from "../src/footer.jsx";
+        import Carrosel from "../src/carrosel.jsx";
+        import Formations from "../src/formation.jsx";
+
+        // Header
+        createRoot(
+            document.getElementById("header")
+        ).render(
+            React.createElement(Header)
+        );
+
+        // Carrousel
+        createRoot(
+            document.getElementById("carrosel")
+        ).render(
+            React.createElement(Carrosel)
+        );
+
+        // Cartes des formations
+        createRoot(
+            document.getElementById("formations-root")
+        ).render(
+            React.createElement(Formations)
+        );
+
+        // Footer
+        createRoot(
+            document.getElementById("footer")
+        ).render(
+            React.createElement(Footer)
+        );
+
+    </script>
+
+    <!-- Bootstrap JavaScript -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous">
+    </script>
+
+</body>
+</html>

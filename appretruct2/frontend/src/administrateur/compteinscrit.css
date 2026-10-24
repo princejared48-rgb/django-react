@@ -1,0 +1,287 @@
+
+/* ================================================
+   CONTENEUR PRINCIPAL
+================================================ */
+
+.comptes-inscrits {
+    width: 100%;
+    margin: 25px 0;
+    padding: 25px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    background: #ffffff;
+    border: 1px solid #e5edf6;
+    border-radius: 14px;
+    box-shadow: 0 5px 20px rgba(8, 29, 60, 0.07);
+}
+
+.comptes-inscrits *,
+.comptes-inscrits *::before,
+.comptes-inscrits *::after {
+    box-sizing: border-box;
+}
+
+
+/* ================================================
+   EN-TÊTE
+================================================ */
+
+.comptes-entete {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.comptes-titre {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 8px;
+    color: #081d3c;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.comptes-titre i {
+    color: #1d8ed1;
+}
+
+.comptes-description {
+    margin: 0;
+    color: #718096;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+/* ================================================
+   ACTIONS ET COMPTEUR
+================================================ */
+
+.comptes-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.comptes-total {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    color: #124f91;
+    background: #edf6ff;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.bouton-actualiser {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 15px;
+    color: #ffffff;
+    background: #124f91;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s ease;
+}
+
+.bouton-actualiser:hover {
+    background: #081d3c;
+}
+
+.bouton-actualiser:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* ================================================
+   TABLEAU
+================================================ */
+
+.tableau-conteneur {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e5edf6;
+    border-radius: 10px;
+}
+
+.comptes-inscrits table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+.comptes-inscrits thead {
+    background: linear-gradient(
+        110deg,
+        #081d3c,
+        #124f91
+    );
+}
+
+.comptes-inscrits th {
+    padding: 15px 13px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.comptes-inscrits td {
+    padding: 14px 13px;
+    color: #334155;
+    font-size: 12px;
+    border-bottom: 1px solid #edf1f7;
+}
+
+.comptes-inscrits tbody tr {
+    transition: background 0.2s ease;
+}
+
+.comptes-inscrits tbody tr:hover {
+    background: #f7fbff;
+}
+
+.comptes-inscrits tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.nom-compte {
+    color: #081d3c !important;
+    font-weight: 600;
+}
+
+.email-compte {
+    overflow-wrap: anywhere;
+}
+
+
+/* ================================================
+   BADGES DES TYPES DE COMPTE
+================================================ */
+
+.badge-role {
+    display: inline-block;
+    padding: 6px 10px;
+    color: #124f91;
+    background: #eaf4ff;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.badge-entreprise {
+    color: #8a4b10;
+    background: #fff2df;
+}
+
+.badge-document {
+    color: #176b43;
+    background: #e6f8ee;
+}
+
+.badge-absence {
+    color: #64748b;
+    background: #f1f5f9;
+}
+
+
+/* ================================================
+   MESSAGES
+================================================ */
+
+.etat-message {
+    margin: 15px 0;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.etat-erreur {
+    color: #a61b1b;
+    background: #fff0f0;
+    border: 1px solid #ffcaca;
+}
+
+.etat-vide {
+    color: #64748b;
+    background: #f8fafc;
+    text-align: center;
+}
+
+.etat-vide i {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 30px;
+}
+
+.etat-vide p {
+    margin: 0;
+}
+
+.etat-chargement {
+    color: #124f91;
+    background: #edf6ff;
+    text-align: center;
+}
+
+
+/* ================================================
+   PIED DU TABLEAU
+================================================ */
+
+.comptes-pied {
+    margin: 15px 0 0;
+    color: #718096;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.comptes-pied i {
+    margin-right: 5px;
+    color: #1d8ed1;
+}
+
+
+/* ================================================
+   RESPONSIVE
+================================================ */
+
+@media (max-width: 600px) {
+    .comptes-inscrits {
+        padding: 16px;
+    }
+
+    .comptes-titre {
+        font-size: 19px;
+    }
+
+    .comptes-entete {
+        align-items: flex-start;
+    }
+
+    .comptes-actions {
+        width: 100%;
+    }
+
+    .bouton-actualiser {
+        flex: 1;
+    }
+}

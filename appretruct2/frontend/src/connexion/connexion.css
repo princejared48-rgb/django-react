@@ -1,0 +1,415 @@
+/* ==============================
+CONFIGURATION GÉNÉRALE
+============================== */
+
+* {
+  box-sizing: border-box;
+  }
+
+html,
+body,
+#root {
+min-height: 100%;
+margin: 0;
+padding: 0;
+}
+
+body {
+min-height: 100vh;
+font-family: 'Poppins', sans-serif;
+color: #2c3e50;
+background:
+radial-gradient(circle at 10% 15%, rgba(26, 91, 181, 0.13), transparent 28%),
+radial-gradient(circle at 90% 85%, rgba(255, 107, 53, 0.10), transparent 28%),
+linear-gradient(135deg, #eef5fc 0%, #ffffff 52%, #f3f7fc 100%);
+}
+
+button,
+input {
+font-family: 'Poppins', sans-serif;
+}
+
+/* ==============================
+EN-TÊTE
+============================== */
+
+.connexion-header {
+position: sticky;
+top: 0;
+z-index: 1030;
+width: 100%;
+background: linear-gradient(
+135deg,
+#438fbd 0%,
+#315d86 55%,
+#243852 100%
+);
+border-bottom: 3px solid #ff6b35;
+box-shadow: 0 10px 28px rgba(8, 29, 60, 0.22);
+}
+
+.connexion-navbar {
+width: 100%;
+min-height: 78px;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 15px 20px;
+}
+
+.connexion-logo {
+color: #ffffff;
+font-family: 'Poppins', sans-serif;
+font-size: 1.35rem;
+font-weight: 800;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+text-decoration: none;
+transition: color 0.3s ease;
+}
+
+.connexion-logo:hover {
+color: #ffb184;
+}
+
+/* ==============================
+CONTENEUR PRINCIPAL
+============================== */
+
+.connexion-page {
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+}
+
+.connexion-page1 {
+flex: 1;
+min-height: calc(100vh - 78px);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-start;
+gap: 24px;
+padding: 75px 20px 24px;
+}
+
+/* ==============================
+CARTE DE CONNEXION
+============================== */
+
+.connexion-dedans {
+width: min(100%, 500px);
+margin: 0 auto;
+overflow: hidden;
+background: #ffffff;
+border: 1px solid rgba(18, 58, 114, 0.14);
+border-radius: 24px;
+box-shadow: 0 24px 60px rgba(9, 27, 54, 0.16);
+animation: apparition 0.6s ease;
+}
+
+/* ==============================
+PARTIE BLEUE DE LA CARTE
+============================== */
+
+.connexion-welcome {
+position: relative;
+overflow: hidden;
+padding: 38px 30px 32px;
+text-align: center;
+color: #ffffff;
+background: linear-gradient(
+135deg,
+#091b36 0%,
+#123a72 55%,
+#1a5bb5 100%
+);
+border-bottom: 4px solid #ff6b35;
+}
+
+.connexion-welcome::after {
+content: "";
+position: absolute;
+top: -75px;
+right: -65px;
+width: 170px;
+height: 170px;
+border: 2px solid rgba(255, 255, 255, 0.20);
+border-radius: 50%;
+box-shadow:
+0 0 0 20px rgba(255, 255, 255, 0.04),
+0 0 0 40px rgba(255, 255, 255, 0.03);
+pointer-events: none;
+}
+
+.connexion-welcome h1 {
+position: relative;
+z-index: 1;
+margin: 0 0 12px;
+font-family: 'Poppins', sans-serif;
+font-size: clamp(1.6rem, 5vw, 2rem);
+font-weight: 800;
+letter-spacing: -0.01em;
+}
+
+.connexion-welcome p {
+position: relative;
+z-index: 1;
+margin: 0;
+color: #e0efff;
+font-size: 0.92rem;
+line-height: 1.7;
+}
+
+/* Petite décoration orange */
+
+.connexion-welcome h1::after {
+content: "";
+display: block;
+width: 48px;
+height: 3px;
+margin: 14px auto 0;
+border-radius: 10px;
+background: #ff6b35;
+}
+
+/* ==============================
+FORMULAIRE
+============================== */
+
+.connexion-form-area {
+padding: 34px clamp(22px, 6vw, 42px) 38px;
+}
+
+.connexion-form-area h2 {
+margin: 0 0 26px;
+color: #123a72;
+text-align: center;
+font-family: 'Poppins', sans-serif;
+font-size: 1.5rem;
+font-weight: 800;
+}
+
+.connexion-form-area label {
+display: block;
+margin-bottom: 9px;
+color: #23466f;
+font-size: 0.78rem;
+font-weight: 700;
+letter-spacing: 0.04em;
+text-transform: uppercase;
+}
+
+/* ==============================
+CHAMPS DE SAISIE
+============================== */
+
+.connexion-input-box {
+display: flex;
+align-items: center;
+width: 100%;
+margin-bottom: 22px;
+padding: 0 15px;
+background: #f8fbff;
+border: 1px solid #cbdced;
+border-radius: 12px;
+transition:
+border-color 0.25s ease,
+box-shadow 0.25s ease,
+background 0.25s ease;
+}
+
+.connexion-input-box:focus-within {
+background: #ffffff;
+border-color: #ff6b35;
+box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.12);
+}
+
+.connexion-input-box input {
+width: 100%;
+min-width: 0;
+padding: 15px 0;
+color: #123a72;
+font-size: 0.93rem;
+background: transparent;
+border: none;
+outline: none;
+}
+
+.connexion-input-box input::placeholder {
+color: #8b9aae;
+}
+
+.connexion-input-box input:focus {
+outline: none;
+box-shadow: none;
+}
+
+/* ==============================
+BOUTON DE CONNEXION
+============================== */
+
+.connexion-btn-submit {
+position: relative;
+width: 100%;
+min-height: 52px;
+margin-top: 5px;
+padding: 14px 18px;
+overflow: hidden;
+color: #ffffff;
+background: linear-gradient(
+135deg,
+#123a72 0%,
+#1a5bb5 65%,
+#438fbd 100%
+);
+border: 2px solid transparent;
+border-radius: 12px;
+box-shadow: 0 10px 22px rgba(18, 58, 114, 0.22);
+cursor: pointer;
+font-size: 0.9rem;
+font-weight: 700;
+letter-spacing: 0.06em;
+transition:
+transform 0.25s ease,
+box-shadow 0.25s ease,
+background 0.25s ease,
+border-color 0.25s ease;
+}
+
+.connexion-btn-submit:hover:not(:disabled) {
+color: #ffffff;
+background: linear-gradient(
+135deg,
+#ff6b35 0%,
+#f58a38 100%
+);
+border-color: #ff6b35;
+box-shadow: 0 12px 26px rgba(255, 107, 53, 0.25);
+transform: translateY(-2px);
+}
+
+.connexion-btn-submit:active:not(:disabled) {
+transform: translateY(0);
+}
+
+.connexion-btn-submit:disabled {
+opacity: 0.7;
+cursor: not-allowed;
+}
+
+/* ==============================
+MESSAGES
+============================== */
+
+.connexion-message {
+margin-bottom: 20px;
+padding: 13px 15px;
+color: #123a72;
+background: #fff4ed;
+border: 1px solid #ffb184;
+border-left: 4px solid #ff6b35;
+border-radius: 10px;
+font-size: 0.88rem;
+line-height: 1.6;
+}
+
+/* ==============================
+PIED DE PAGE
+============================== */
+
+.connexion-footer {
+width: 100%;
+padding: 18px 15px;
+color: #6d8194;
+text-align: center;
+font-size: 0.85rem;
+}
+
+.connexion-footer a {
+color: #123a72;
+font-weight: 700;
+text-decoration: none;
+}
+
+.connexion-footer a:hover {
+color: #ff6b35;
+}
+
+/* ==============================
+ANIMATION
+============================== */
+
+@keyframes apparition {
+from {
+opacity: 0;
+transform: translateY(15px);
+}
+
+
+to {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+}
+
+/* ==============================
+RESPONSIVE : TÉLÉPHONES
+============================== */
+
+@media (max-width: 480px) {
+.connexion-navbar {
+min-height: 70px;
+}
+
+
+.connexion-logo {
+    font-size: 1.15rem;
+}
+
+.connexion-page1 {
+    min-height: calc(100vh - 70px);
+    gap: 18px;
+    padding: 35px 12px 16px;
+}
+
+.connexion-dedans {
+    border-radius: 18px;
+}
+
+.connexion-welcome {
+    padding: 30px 20px 26px;
+}
+
+.connexion-form-area {
+    padding: 27px 20px 30px;
+}
+
+.connexion-form-area h2 {
+    margin-bottom: 22px;
+    font-size: 1.35rem;
+}
+
+.connexion-input-box input {
+    padding: 14px 0;
+    font-size: 0.9rem;
+}
+
+.connexion-footer {
+    font-size: 0.78rem;
+}
+
+}
+
+/* Réduction des animations si demandée par le système */
+
+@media (prefers-reduced-motion: reduce) {
+*,
+*::before,
+*::after {
+animation-duration: 0.01ms !important;
+transition-duration: 0.01ms !important;
+}
+}

@@ -1,0 +1,244 @@
+/* =========================================
+CARROUSEL APPRETRUCT
+========================================= */
+
+.carrosel {
+width: 100%;
+padding: 1.25rem 0.75rem 2rem;
+background: linear-gradient(
+180deg,
+#091b36 0%,
+#f8fafd 100%
+);
+}
+
+.carrosel .carousel {
+position: relative;
+width: 100%;
+max-width: 1320px;
+margin: 0 auto;
+overflow: hidden;
+background: #081d3c;
+border-radius: 24px;
+box-shadow: 0 20px 45px rgba(9, 27, 54, 0.25);
+}
+
+/* Images */
+
+.carrosel .carousel-inner,
+.carrosel .carousel-item {
+position: relative;
+height: clamp(340px, 58vh, 560px);
+min-height: 340px;
+}
+
+.carrosel .carousel-item img {
+display: block;
+width: 100%;
+height: 100%;
+object-fit: cover;
+object-position: center;
+}
+
+/* Voile sombre pour rendre les textes lisibles */
+
+.carrosel .carousel-item::after {
+content: "";
+position: absolute;
+inset: 0;
+z-index: 1;
+background: linear-gradient(
+90deg,
+rgba(8, 29, 60, 0.82) 0%,
+rgba(8, 29, 60, 0.48) 55%,
+rgba(8, 29, 60, 0.12) 100%
+);
+pointer-events: none;
+}
+
+/* =========================================
+TEXTES DU CARROUSEL
+========================================= */
+
+.carrosel .carousel-caption.d5 {
+position: absolute;
+z-index: 2;
+top: auto;
+right: auto;
+bottom: 12%;
+left: 6%;
+width: min(640px, 85%);
+padding: 1.5rem 1.75rem;
+text-align: left;
+background: rgba(8, 29, 60, 0.84);
+border-left: 5px solid #ff6b35;
+border-radius: 0 16px 16px 0;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+-webkit-backdrop-filter: blur(8px);
+backdrop-filter: blur(8px);
+}
+
+.carrosel .carousel-caption h5 {
+margin: 0 0 0.75rem;
+color: #ffffff;
+font-size: clamp(1.2rem, 2.5vw, 2.1rem);
+font-weight: 800;
+line-height: 1.3;
+letter-spacing: 0.01em;
+}
+
+.carrosel .carousel-caption p {
+margin: 0;
+color: #e0efff;
+font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+font-weight: 400;
+line-height: 1.7;
+}
+
+/* =========================================
+INDICATEURS
+========================================= */
+
+.carrosel .carousel-indicators {
+z-index: 3;
+margin-bottom: 1rem;
+}
+
+.carrosel .carousel-indicators button {
+width: 26px;
+height: 4px;
+margin: 0 4px;
+padding: 0;
+background-color: rgba(255, 255, 255, 0.6);
+border: none;
+border-radius: 99px;
+opacity: 1;
+transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.carrosel .carousel-indicators button.active {
+width: 40px;
+background-color: #ff6b35;
+}
+
+/* =========================================
+FLÈCHES DE NAVIGATION
+========================================= */
+
+.carrosel .carousel-control-prev,
+.carrosel .carousel-control-next {
+z-index: 3;
+width: 7%;
+opacity: 1;
+}
+
+.carrosel .carousel-control-prev-icon,
+.carrosel .carousel-control-next-icon {
+width: 2.5rem;
+height: 2.5rem;
+background-color: rgba(8, 29, 60, 0.78);
+background-size: 50%;
+border: 1px solid rgba(255, 255, 255, 0.35);
+border-radius: 50%;
+transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.carrosel .carousel-control-prev:hover .carousel-control-prev-icon,
+.carrosel .carousel-control-next:hover .carousel-control-next-icon {
+background-color: #ff6b35;
+transform: scale(1.08);
+}
+
+/* =========================================
+TABLETTES ET TÉLÉPHONES
+========================================= */
+
+@media (max-width: 767.98px) {
+.carrosel {
+padding: 0.75rem 0.4rem 1.25rem;
+}
+
+
+.carrosel .carousel {
+    border-radius: 16px;
+}
+
+.carrosel .carousel-inner,
+.carrosel .carousel-item {
+    height: 380px;
+    min-height: 380px;
+}
+
+.carrosel .carousel-caption.d5 {
+    right: auto;
+    bottom: 9%;
+    left: 5%;
+    width: 88%;
+    padding: 1rem 1.2rem;
+    border-left-width: 4px;
+    border-radius: 0 12px 12px 0;
+}
+
+.carrosel .carousel-caption h5 {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    line-height: 1.3;
+}
+
+.carrosel .carousel-caption p {
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.carrosel .carousel-control-prev,
+.carrosel .carousel-control-next {
+    width: 9%;
+}
+
+.carrosel .carousel-control-prev-icon,
+.carrosel .carousel-control-next-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+
+}
+
+/* Petits téléphones */
+
+@media (max-width: 480px) {
+.carrosel .carousel-inner,
+.carrosel .carousel-item {
+height: 350px;
+min-height: 350px;
+}
+
+
+.carrosel .carousel-caption.d5 {
+    bottom: 12%;
+    left: 4%;
+    width: 92%;
+    padding: 0.85rem 0.9rem;
+}
+
+.carrosel .carousel-caption h5 {
+    font-size: 1.05rem;
+}
+
+.carrosel .carousel-caption p {
+    font-size: 0.75rem;
+    line-height: 1.45;
+}
+
+.carrosel .carousel-control-prev-icon,
+.carrosel .carousel-control-next-icon {
+    width: 1.7rem;
+    height: 1.7rem;
+}
+
+.carrosel .carousel-indicators {
+    margin-bottom: 0.65rem;
+}
+
+
+}

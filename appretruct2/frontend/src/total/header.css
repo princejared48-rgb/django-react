@@ -1,0 +1,469 @@
+
+/* ==============================
+   STYLE GENERAL
+============================== */
+
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: 'Poppins', sans-serif;
+    color: #2c3e50;
+    background-color: #f8f9fa;
+}
+
+.lo {
+    text-decoration: none;
+}
+
+.colr\:hover {
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.lien,
+.lien1 {
+    text-transform: capitalize;
+}
+
+
+/* ==============================
+   HEADER PRINCIPAL
+============================== */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background: linear-gradient(
+        135deg,
+        #438fbd 0%,
+        #315d86 55%,
+        #243852 100%
+    );
+    border-bottom: 3px solid #ff6b35;
+    box-shadow: 0 8px 25px rgba(8, 29, 60, 0.22);
+    transition: box-shadow 0.3s ease;
+}
+
+header,
+header .navbar,
+header .head,
+header .app,
+header .nav-link,
+header .connect,
+header .connect1 {
+    font-family: 'Times New Roman', Times, serif !important;
+}
+
+
+/* ==============================
+   BARRE DE NAVIGATION
+============================== */
+
+.head {
+    background: transparent;
+    min-height: 78px;
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.5rem;
+    gap: 1rem;
+}
+
+.long {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+
+/* ==============================
+   LOGO APPRETRUCT
+============================== */
+
+.app {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    color: white !important;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    font-size: 1.15rem;
+    text-decoration: none;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    transition: all 0.3s ease;
+}
+
+.app:hover {
+    color: #ffffff !important;
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+
+/* ==============================
+   CONTENEUR DU MENU
+============================== */
+
+.hum {
+    flex: 1;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.dev {
+    width: auto;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+/* ==============================
+   LIENS DE NAVIGATION
+============================== */
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+ul {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.dev ul {
+    width: auto;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    justify-content: flex-start;
+    gap: 0.4rem;
+}
+
+li {
+    margin-right: 0;
+}
+
+
+/* ==============================
+   STYLE DES LIENS
+============================== */
+
+.li,
+.li1,
+.li12 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.96) !important;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.7rem 1rem;
+    transition: all 0.3s ease;
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+
+.li {
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+}
+
+.li1 {
+    background: transparent;
+    border: 1px solid transparent;
+}
+
+.li12 {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+
+/* ==============================
+   EFFETS AU SURVOL
+============================== */
+
+.li\:hover,
+.li1\:hover,
+.li12\:hover,
+.li:hover,
+.li1:hover,
+.li12:hover {
+    color: #ffffff !important;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.18);
+    border-color: #ff6b35;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(8, 29, 60, 0.16);
+}
+
+
+/* ==============================
+   BOUTONS CONNEXION / INSCRIPTION
+============================== */
+
+.bj {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+.bj > .connect,
+.bj > .connect1 {
+    flex: 0 0 auto;
+    width: auto;
+}
+
+.connect,
+.connect1 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    margin: 0.2rem;
+    padding: 0.75rem 1.15rem;
+    border-radius: 12px;
+    font-family: 'Times New Roman', Times, serif !important;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: white;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.connect {
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.connect1 {
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.50);
+    box-shadow: 0 6px 15px rgba(8, 29, 60, 0.16);
+}
+
+.connect:hover,
+.connect1:hover,
+.connect\:hover,
+.connect1\:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.24);
+    border-color: #ff6b35;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(8, 29, 60, 0.22);
+}
+
+
+/* Liens à l'intérieur des boutons */
+
+.bj > .connect a,
+.bj > .connect1 a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.bj > .connect div,
+.bj > .connect1 div {
+    color: inherit !important;
+}
+
+
+/* ==============================
+   ACTIONS DU HEADER
+============================== */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    flex-shrink: 0;
+}
+
+.header-actions > a {
+    white-space: nowrap;
+}
+
+.but {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ==============================
+   BOUTON MENU MOBILE
+============================== */
+
+.bth1 {
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-radius: 10px;
+    padding: 0.45rem 0.65rem;
+    transition: all 0.3s ease;
+}
+
+.bth1:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(8, 29, 60, 0.18);
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+}
+
+
+/* ==============================
+   ANIMATIONS
+============================== */
+
+@keyframes a1 {
+    from {
+        transform: scale(1.05);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes an1 {
+    from {
+        transform: scale(1.1);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+
+/* ==============================
+   RESPONSIVE : TABLETTES
+============================== */
+
+@media (max-width: 991px) {
+
+    .head {
+        padding: 0.7rem 1rem;
+    }
+
+    .long {
+        flex-wrap: wrap;
+    }
+
+    .hum {
+        flex-wrap: wrap;
+        gap: 0.6rem;
+    }
+
+    .dev {
+        flex: 1 1 100%;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .dev ul,
+    .navbar-nav {
+        width: 100%;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .nav-item {
+        width: 100%;
+    }
+
+    .li,
+    .li1,
+    .li12 {
+        width: 100%;
+        justify-content: flex-start;
+        border-radius: 10px;
+    }
+
+    .header-actions {
+        margin-left: auto;
+    }
+
+    .bj {
+        flex-wrap: wrap;
+    }
+}
+
+
+/* ==============================
+   RESPONSIVE : TELEPHONES
+============================== */
+
+@media (max-width: 576px) {
+
+    .head {
+        min-height: 68px;
+        padding: 0.6rem 0.75rem;
+    }
+
+    .app {
+        font-size: 1rem;
+        letter-spacing: 0.08em;
+    }
+
+    .hum {
+        gap: 0.4rem;
+    }
+
+    .connect,
+    .connect1 {
+        min-height: 38px;
+        padding: 0.6rem 0.75rem;
+        font-size: 9px;
+    }
+
+    .header-actions {
+        gap: 0.25rem;
+    }
+
+    .li,
+    .li1,
+    .li12 {
+        font-size: 9px;
+        padding: 0.65rem 0.8rem;
+    }
+}
