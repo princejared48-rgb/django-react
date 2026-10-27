@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -6,7 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Footer | Appretruct</title>
+    <meta
+        name="description"
+        content="Gérez votre profil candidat sur Appretruct."
+    >
+
+    <title>Mon profil | Appretruct</title>
 
     <!-- Police Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,27 +26,25 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
-
-
 </head>
 
 <body>
 
-    <!-- Zone d'affichage du Footer -->
-    <div id="footer-root"></div>
+    <!-- Zone d'affichage du profil utilisateur avec React -->
+    <div id="profil-utilisateur-root"></div>
 
-    <!-- Chargement du composant Footer React -->
+    <!-- Chargement du composant React -->
     <script type="module">
-
         import React from "react";
         import { createRoot } from "react-dom/client";
-        import Footer from "./src/footer.jsx";
+        import ProfilUtilisateur from "/src/utilisateur/profil.jsx";
 
-        // Afficher uniquement le Footer
-        createRoot(document.getElementById("footer-root")).render(
-            React.createElement(Footer)
+        // Afficher le profil utilisateur
+        createRoot(
+            document.getElementById("profil-utilisateur-root")
+        ).render(
+            React.createElement(ProfilUtilisateur)
         );
-
     </script>
 
 </body>

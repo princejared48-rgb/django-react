@@ -10,25 +10,28 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# ============================================================
+# CONFIGURATION PRINCIPALE
+# ============================================================
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-35-k3*(8-+=x45dzgp_5-^fdalgorc(^yo2d&2!=_!wr04!yz+'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+]
 
 
-# Application definition
+# ============================================================
+# APPLICATIONS INSTALLÉES
+# ============================================================
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,8 +42,12 @@ INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.staticfiles',
     'appretrut21',
-    
 ]
+
+
+# ============================================================
+# MIDDLEWARE
+# ============================================================
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -53,7 +60,19 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# ============================================================
+# URLS ET APPLICATION
+# ============================================================
+
 ROOT_URLCONF = 'config.urls'
+
+WSGI_APPLICATION = 'config.wsgi.application'
+
+
+# ============================================================
+# TEMPLATES
+# ============================================================
 
 TEMPLATES = [
     {
@@ -70,11 +89,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/6.1/ref/settings/#databases
+# ============================================================
+# BASE DE DONNÉES
+# ============================================================
 
 DATABASES = {
     'default': {
@@ -84,8 +102,9 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
+# ============================================================
+# VALIDATION DES MOTS DE PASSE
+# ============================================================
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -103,45 +122,82 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/6.1/topics/i18n/
+# ============================================================
+# LANGUE ET FUSEAU HORAIRE
+# ============================================================
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-fr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Douala'
 
 USE_I18N = True
 
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.1/howto/static-files/
+# ============================================================
+# FICHIERS STATIQUES
+# ============================================================
 
 STATIC_URL = 'static/'
 
 
-# Email
-# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
+# ============================================================
+# EMAIL
+# ============================================================
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
-# Autoriser React à communiquer avec Django
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# ============================================================
+# CONFIGURATION CORS : REACT <-> DJANGO
+# ============================================================
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
 
-# Origines autorisées pour la protection CSRF en développement
+# Autoriser les cookies de session dans les requêtes React
+CORS_ALLOW_CREDENTIALS = True
+
+
+# ============================================================
+# CONFIGURATION CSRF
+# ============================================================
+
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
 
-# Dossier des fichiers envoyés par les utilisateurs
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+
+# ============================================================
+# COOKIES DE SESSION ET CSRF
+# ============================================================
+
+# Configuration adaptée au développement local en HTTP
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
+# Laisser le navigateur transmettre les cookies dans ce contexte
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+
+# ============================================================
+# FICHIERS ENVOYÉS PAR LES UTILISATEURS
+# ============================================================
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
+# ============================================================
+# CLÉ PRIMAIRE PAR DÉFAUT
+# ============================================================
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 

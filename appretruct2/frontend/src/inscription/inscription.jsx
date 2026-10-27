@@ -19,17 +19,13 @@ function obtenirCookie(nom) {
     return "";
 }
 
-
 // ======================================================
 // COMPOSANT D'INSCRIPTION
 // ======================================================
 
 export default function Inscription() {
-
-    // Type de compte sélectionné
     const [role, setRole] = useState("utilisateur");
 
-    // Informations communes et spécifiques
     const [formulaire, setFormulaire] = useState({
         nom: "",
         nom_entreprise: "",
@@ -44,18 +40,16 @@ export default function Inscription() {
         competences: "",
         description: "",
         type_entreprise: "privee",
+        code_autorisation: "",
     });
 
-    // Fichiers facultatifs
     const [cv, setCv] = useState(null);
     const [documentEntreprise, setDocumentEntreprise] =
         useState(null);
 
-    // Messages d'information
     const [erreur, setErreur] = useState("");
     const [message, setMessage] = useState("");
     const [chargement, setChargement] = useState(false);
-
 
     // ==================================================
     // MODIFIER LES CHAMPS
@@ -73,18 +67,15 @@ export default function Inscription() {
         setMessage("");
     }
 
-
     // ==================================================
     // CHANGER LE TYPE DE COMPTE
     // ==================================================
 
     function changerRole(nouveauRole) {
         setRole(nouveauRole);
-
         setErreur("");
         setMessage("");
     }
-
 
     // ==================================================
     // ENVOYER LE FORMULAIRE À DJANGO
@@ -96,7 +87,6 @@ export default function Inscription() {
         setErreur("");
         setMessage("");
 
-        // Vérifier les mots de passe avant l'envoi
         if (formulaire.motdepasse !== formulaire.confirmation) {
             setErreur(
                 "Les deux mots de passe ne correspondent pas."
@@ -127,13 +117,23 @@ export default function Inscription() {
             return;
         }
 
+        if (
+            role === "administrateur" &&
+            (
+                !formulaire.nom.trim() ||
+                !formulaire.code_autorisation.trim()
+            )
+        ) {
+            setErreur(
+                "Le nom complet et le code d'autorisation sont obligatoires."
+            );
+            return;
+        }
+
         setChargement(true);
 
         try {
-
-            // ------------------------------------------
-            // 1. Demander le cookie CSRF à Django
-            // ------------------------------------------
+            // 1. Obtenir le jeton CSRF
 
             const reponseCSRF = await fetch("/api/csrf/", {
                 method: "GET",
@@ -142,7 +142,7 @@ export default function Inscription() {
 
             if (!reponseCSRF.ok) {
                 throw new Error(
-                    "Impossible de préparer la connexion avec Django."
+                    "Impossible de préparer la communication avec Django."
                 );
             }
 
@@ -150,79 +150,47 @@ export default function Inscription() {
 
             if (!jetonCSRF) {
                 throw new Error(
-                    "Le jeton de sécurité CSRF est absent. Vérifie la configuration de Django."
+                    "Le jeton CSRF est absent. Vérifie la configuration de Django."
                 );
             }
 
-
-            // ------------------------------------------
-            // 2. Préparer les informations
-            // ------------------------------------------
+            // 2. Préparer les données
 
             const donnees = new FormData();
 
             donnees.append("role", role);
             donnees.append("email", formulaire.email.trim());
-            donnees.append("telephone", formulaire.telephone.trim());
             donnees.append("motdepasse", formulaire.motdepasse);
             donnees.append("confirmation", formulaire.confirmation);
-            donnees.append("ville", formulaire.ville.trim());
 
-
-            // ------------------------------------------
-            // 3. Ajouter les données du candidat
-            // ------------------------------------------
+            // 3. Informations du candidat
 
             if (role === "utilisateur") {
-
                 donnees.append("nom", formulaire.nom.trim());
-
-                donnees.append(
-                    "domaine",
-                    formulaire.domaine.trim()
-                );
-
-                donnees.append(
-                    "experience",
-                    formulaire.experience.trim()
-                );
-
-                donnees.append(
-                    "competences",
-                    formulaire.competences.trim()
-                );
+                donnees.append("telephone", formulaire.telephone.trim());
+                donnees.append("ville", formulaire.ville.trim());
+                donnees.append("domaine", formulaire.domaine.trim());
+                donnees.append("experience", formulaire.experience.trim());
+                donnees.append("competences", formulaire.competences.trim());
 
                 if (cv) {
                     donnees.append("cv", cv);
                 }
             }
 
-
-            // ------------------------------------------
-            // 4. Ajouter les données de l'entreprise
-            // ------------------------------------------
+            // 4. Informations de l'entreprise
 
             if (role === "entreprise") {
-
                 donnees.append(
                     "nom_entreprise",
                     formulaire.nom_entreprise.trim()
                 );
 
-                donnees.append(
-                    "domaine",
-                    formulaire.domaine.trim()
-                );
-
-                donnees.append(
-                    "site_web",
-                    formulaire.site_web.trim()
-                );
-
-                donnees.append(
-                    "description",
-                    formulaire.description.trim()
-                );
+                donnees.append("domaine", formulaire.domaine.trim());
+                donnees.append("site_web", formulaire.site_web.trim());
+                donnees.append("telephone", formulaire.telephone.trim());
+                donnees.append("ville", formulaire.ville.trim());
+                donnees.append("description", formulaire.description.trim());
 
                 donnees.append(
                     "type_entreprise",
@@ -237,28 +205,30 @@ export default function Inscription() {
                 }
             }
 
+            // 5. Informations de l'administrateur
 
-            // ------------------------------------------
-            // 5. Envoyer les données à Django
-            // ------------------------------------------
+            if (role === "administrateur") {
+                donnees.append("nom", formulaire.nom.trim());
+                donnees.append(
+                    "code_autorisation",
+                    formulaire.code_autorisation.trim()
+                );
+            }
+
+            // 6. Envoyer les données à Django
 
             const reponse = await fetch("/api/inscription/", {
                 method: "POST",
-
                 headers: {
                     "X-CSRFToken": jetonCSRF,
                 },
-
                 credentials: "same-origin",
-
                 body: donnees,
             });
 
-            // Récupérer la réponse JSON de Django
             const resultat = await reponse.json();
 
             if (!reponse.ok) {
-
                 let texteErreur =
                     resultat.message ||
                     "Une erreur est survenue pendant l'inscription.";
@@ -269,25 +239,22 @@ export default function Inscription() {
                     resultat.details &&
                     typeof resultat.details === "object"
                 ) {
-                    texteErreur += " " + Object.values(
-                        resultat.details
-                    ).flat().join(" ");
+                    texteErreur += " " +
+                        Object.values(resultat.details).flat().join(" ");
                 }
 
                 throw new Error(texteErreur);
             }
 
-
-            // ------------------------------------------
-            // 6. Inscription réussie
-            // ------------------------------------------
+            // 7. Confirmer la création du compte
 
             setMessage(
                 resultat.message ||
-                "Ton compte a été créé avec succès."
+                "Le compte a été créé avec succès."
             );
 
-            // Réinitialiser les champs après la réussite
+            // Réinitialiser les champs
+
             setFormulaire({
                 nom: "",
                 nom_entreprise: "",
@@ -302,6 +269,7 @@ export default function Inscription() {
                 competences: "",
                 description: "",
                 type_entreprise: "privee",
+                code_autorisation: "",
             });
 
             setCv(null);
@@ -310,7 +278,6 @@ export default function Inscription() {
             event.target.reset();
 
         } catch (error) {
-
             console.error(
                 "Erreur pendant l'inscription :",
                 error
@@ -326,15 +293,13 @@ export default function Inscription() {
         }
     }
 
-
     // ==================================================
-    // AFFICHAGE DU FORMULAIRE
+    // AFFICHAGE
     // ==================================================
 
     return (
         <div className="inscription-page">
 
-            {/* Navigation */}
             <nav className="inscription-navbar">
                 <a href="/" className="inscription-logo">
                     <i className="fas fa-briefcase"></i>
@@ -347,24 +312,17 @@ export default function Inscription() {
                 </a>
             </nav>
 
-
-            {/* Formulaire */}
             <div className="inscription-container">
-
                 <div className="inscription-card">
 
-                    {/* En-tête */}
                     <div className="inscription-header">
-
                         <h1>Créer un compte</h1>
 
                         <p>
                             Rejoins Appretruct et accède aux
                             opportunités professionnelles.
                         </p>
-
                     </div>
-
 
                     <div className="inscription-body">
 
@@ -374,6 +332,7 @@ export default function Inscription() {
                         >
 
                             {/* Messages */}
+
                             {erreur && (
                                 <div
                                     className="inscription-error"
@@ -394,8 +353,8 @@ export default function Inscription() {
                                 </div>
                             )}
 
-
                             {/* Choix du compte */}
+
                             <h2 className="inscription-section-title">
                                 <i className="fas fa-user-tag"></i>
                                 Type de compte
@@ -403,15 +362,10 @@ export default function Inscription() {
 
                             <div className="inscription-roles">
 
-                                {/* Candidat */}
                                 <label
                                     className={
                                         "inscription-role-card " +
-                                        (
-                                            role === "utilisateur"
-                                                ? "active"
-                                                : ""
-                                        )
+                                        (role === "utilisateur" ? "active" : "")
                                     }
                                 >
                                     <input
@@ -425,7 +379,6 @@ export default function Inscription() {
                                     />
 
                                     <i className="fas fa-user"></i>
-
                                     <h3>Candidat</h3>
 
                                     <p>
@@ -433,16 +386,10 @@ export default function Inscription() {
                                     </p>
                                 </label>
 
-
-                                {/* Entreprise */}
                                 <label
                                     className={
                                         "inscription-role-card " +
-                                        (
-                                            role === "entreprise"
-                                                ? "active"
-                                                : ""
-                                        )
+                                        (role === "entreprise" ? "active" : "")
                                     }
                                 >
                                     <input
@@ -456,7 +403,6 @@ export default function Inscription() {
                                     />
 
                                     <i className="fas fa-building"></i>
-
                                     <h3>Entreprise</h3>
 
                                     <p>
@@ -464,10 +410,34 @@ export default function Inscription() {
                                     </p>
                                 </label>
 
+                                <label
+                                    className={
+                                        "inscription-role-card " +
+                                        (role === "administrateur" ? "active" : "")
+                                    }
+                                >
+                                    <input
+                                        type="radio"
+                                        name="role"
+                                        value="administrateur"
+                                        checked={role === "administrateur"}
+                                        onChange={() =>
+                                            changerRole("administrateur")
+                                        }
+                                    />
+
+                                    <i className="fas fa-user-shield"></i>
+                                    <h3>Administrateur</h3>
+
+                                    <p>
+                                        Accède à la gestion de la plateforme.
+                                    </p>
+                                </label>
+
                             </div>
 
-
                             {/* Informations du candidat */}
+
                             {role === "utilisateur" && (
                                 <>
                                     <h2 className="inscription-section-title">
@@ -494,7 +464,6 @@ export default function Inscription() {
                                             />
                                         </div>
 
-
                                         <div className="inscription-field">
                                             <label htmlFor="telephone">
                                                 Téléphone
@@ -511,7 +480,6 @@ export default function Inscription() {
                                             />
                                         </div>
 
-
                                         <div className="inscription-field">
                                             <label htmlFor="ville">
                                                 Ville
@@ -526,7 +494,6 @@ export default function Inscription() {
                                                 placeholder="Ex. Douala"
                                             />
                                         </div>
-
 
                                         <div className="inscription-field full-width">
                                             <label htmlFor="domaine">
@@ -543,7 +510,6 @@ export default function Inscription() {
                                             />
                                         </div>
 
-
                                         <div className="inscription-field full-width">
                                             <label htmlFor="experience">
                                                 Expérience professionnelle
@@ -559,7 +525,6 @@ export default function Inscription() {
                                             />
                                         </div>
 
-
                                         <div className="inscription-field full-width">
                                             <label htmlFor="competences">
                                                 Compétences
@@ -574,7 +539,6 @@ export default function Inscription() {
                                                 placeholder="Indique tes principales compétences."
                                             />
                                         </div>
-
 
                                         <div className="inscription-field full-width">
                                             <label htmlFor="cv">
@@ -603,8 +567,8 @@ export default function Inscription() {
                                 </>
                             )}
 
-
                             {/* Informations de l'entreprise */}
+
                             {role === "entreprise" && (
                                 <>
                                     <h2 className="inscription-section-title">
@@ -630,7 +594,6 @@ export default function Inscription() {
                                             />
                                         </div>
 
-
                                         <div className="inscription-field">
                                             <label htmlFor="domaine">
                                                 Domaine d'activité *
@@ -646,7 +609,6 @@ export default function Inscription() {
                                                 required
                                             />
                                         </div>
-
 
                                         <div className="inscription-field">
                                             <label htmlFor="type_entreprise">
@@ -681,7 +643,6 @@ export default function Inscription() {
                                             </select>
                                         </div>
 
-
                                         <div className="inscription-field">
                                             <label htmlFor="telephone">
                                                 Téléphone professionnel
@@ -696,7 +657,6 @@ export default function Inscription() {
                                                 placeholder="Téléphone professionnel"
                                             />
                                         </div>
-
 
                                         <div className="inscription-field">
                                             <label htmlFor="ville">
@@ -713,7 +673,6 @@ export default function Inscription() {
                                             />
                                         </div>
 
-
                                         <div className="inscription-field full-width">
                                             <label htmlFor="site_web">
                                                 Site web
@@ -729,7 +688,6 @@ export default function Inscription() {
                                             />
                                         </div>
 
-
                                         <div className="inscription-field full-width">
                                             <label htmlFor="description">
                                                 Présentation détaillée
@@ -744,7 +702,6 @@ export default function Inscription() {
                                                 placeholder="Présentez vos activités, services et objectifs."
                                             />
                                         </div>
-
 
                                         <div className="inscription-field full-width">
                                             <label htmlFor="document_presentation">
@@ -773,8 +730,62 @@ export default function Inscription() {
                                 </>
                             )}
 
+                            {/* Informations de l'administrateur */}
+
+                            {role === "administrateur" && (
+                                <>
+                                    <h2 className="inscription-section-title">
+                                        <i className="fas fa-user-shield"></i>
+                                        Informations de l'administrateur
+                                    </h2>
+
+                                    <div className="inscription-grid">
+
+                                        <div className="inscription-field full-width">
+                                            <label htmlFor="nom">
+                                                Nom complet *
+                                            </label>
+
+                                            <input
+                                                id="nom"
+                                                name="nom"
+                                                type="text"
+                                                value={formulaire.nom}
+                                                onChange={modifierChamp}
+                                                placeholder="Prénom et nom"
+                                                autoComplete="name"
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className="inscription-field full-width">
+                                            <label htmlFor="code_autorisation">
+                                                Code d'autorisation *
+                                            </label>
+
+                                            <input
+                                                id="code_autorisation"
+                                                name="code_autorisation"
+                                                type="password"
+                                                value={formulaire.code_autorisation}
+                                                onChange={modifierChamp}
+                                                placeholder="Entre le code d'autorisation"
+                                                autoComplete="off"
+                                                required
+                                            />
+
+                                            <small>
+                                                Ce code doit être vérifié par Django
+                                                avant la création du compte.
+                                            </small>
+                                        </div>
+
+                                    </div>
+                                </>
+                            )}
 
                             {/* Informations de connexion */}
+
                             <h2 className="inscription-section-title">
                                 <i className="fas fa-lock"></i>
                                 Informations de connexion
@@ -799,7 +810,6 @@ export default function Inscription() {
                                     />
                                 </div>
 
-
                                 <div className="inscription-field">
                                     <label htmlFor="motdepasse">
                                         Mot de passe *
@@ -816,7 +826,6 @@ export default function Inscription() {
                                         required
                                     />
                                 </div>
-
 
                                 <div className="inscription-field">
                                     <label htmlFor="confirmation">
@@ -837,8 +846,8 @@ export default function Inscription() {
 
                             </div>
 
+                            {/* Bouton d'inscription */}
 
-                            {/* Bouton */}
                             <button
                                 type="submit"
                                 className="inscription-submit"
@@ -857,24 +866,17 @@ export default function Inscription() {
                                 )}
                             </button>
 
-
-                            {/* Connexion */}
                             <div className="inscription-login">
-                                Tu as déjà un compte ?
-                                {" "}
+                                Tu as déjà un compte ?{" "}
                                 <a href="/connexion.html">
                                     Connecte-toi
                                 </a>
                             </div>
 
                         </form>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     );
 }

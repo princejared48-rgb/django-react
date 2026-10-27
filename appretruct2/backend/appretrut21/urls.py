@@ -3,23 +3,81 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # 1. Préparer le jeton CSRF pour React
+    # =====================================================
+    # AUTHENTIFICATION
+    # =====================================================
+
+    # Jeton CSRF
     path(
-        "api/csrf/",
+        "csrf/",
         views.obtenir_jeton_csrf,
         name="obtenir_jeton_csrf",
     ),
 
-    # 2. Inscription d'un candidat ou d'une entreprise
+    # Inscription
     path(
-        "api/inscription/",
+        "inscription/",
         views.inscription_api,
         name="inscription_api",
     ),
 
-    # 3. Récupérer les comptes pour le tableau de bord administrateur
+    # Connexion
     path(
-        "api/administrateur/comptes/",
+        "connexion/",
+        views.connexion_api,
+        name="connexion_api",
+    ),
+
+    # Déconnexion
+    path(
+        "deconnexion/",
+        views.deconnexion_api,
+        name="deconnexion_api",
+    ),
+
+    # =====================================================
+    # PROFIL UTILISATEUR (CANDIDAT)
+    # =====================================================
+
+    # Consulter le profil
+    path(
+        "utilisateur/profil/",
+        views.profil_utilisateur_api,
+        name="profil_utilisateur_api",
+    ),
+
+    # Modifier le profil
+    path(
+        "utilisateur/profil/modifier/",
+        views.modifier_profil_utilisateur_api,
+        name="modifier_profil_utilisateur_api",
+    ),
+
+    # =====================================================
+    # PROFIL ENTREPRISE
+    # =====================================================
+
+    # Consulter le profil
+    path(
+        "entreprise/profil/",
+        views.profil_entreprise_api,
+        name="profil_entreprise_api",
+    ),
+
+    # Modifier le profil
+    path(
+        "entreprise/profil/modifier/",
+        views.modifier_profil_entreprise_api,
+        name="modifier_profil_entreprise_api",
+    ),
+
+    # =====================================================
+    # ADMINISTRATEUR
+    # =====================================================
+
+    # Liste des comptes
+    path(
+        "administrateur/comptes/",
         views.liste_comptes_administrateur_api,
         name="liste_comptes_administrateur_api",
     ),

@@ -1,50 +1,46 @@
-
 <!DOCTYPE html>
-<html lang="fr">
 
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Footer | Appretruct</title>
 
-    <!-- Police Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Tableau de bord | Appretruct</title>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
+<!-- Police Poppins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+>
 
-    <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
+<!-- Font Awesome -->
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
 
 
 </head>
 
 <body>
+    <!-- Zone d'affichage du composant React -->
+    <div id="tabbord-root"></div>
 
-    <!-- Zone d'affichage du Footer -->
-    <div id="footer-root"></div>
 
-    <!-- Chargement du composant Footer React -->
-    <script type="module">
+<!-- Chargement du composant React -->
+<script type="module">
+    import React from "react";
+    import { createRoot } from "react-dom/client";
+    import Tabbord from "/src/entreprise/profil.jsx";
 
-        import React from "react";
-        import { createRoot } from "react-dom/client";
-        import Footer from "./src/footer.jsx";
-
-        // Afficher uniquement le Footer
-        createRoot(document.getElementById("footer-root")).render(
-            React.createElement(Footer)
-        );
-
-    </script>
+    // Tableau de bord entreprise
+    createRoot(document.getElementById("tabbord-root")).render(
+        React.createElement(Tabbord)
+    );
+</script>
 
 </body>
-
 </html>

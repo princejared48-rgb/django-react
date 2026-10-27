@@ -17,6 +17,7 @@ export default defineConfig({
 
     // Configuration du serveur de développement
     server: {
+        // Ouvrir automatiquement la page d'accueil
         open: "/acceuiltotal/acceuiltotal.html",
 
         // Communication entre React et Django
@@ -32,29 +33,46 @@ export default defineConfig({
     build: {
         rollupOptions: {
             input: {
+                // Page d'accueil
                 accueil: resolve(
                     dossierFrontend,
                     "acceuiltotal/acceuiltotal.html"
                 ),
 
+                // Page d'inscription
                 inscription: resolve(
                     dossierFrontend,
                     "inscription/inscription.html"
                 ),
 
+                // Page de connexion
+                connexion: resolve(
+                    dossierFrontend,
+                    "connexion/connexion.html"
+                ),
+
+                // Tableau de bord utilisateur
                 utilisateur: resolve(
                     dossierFrontend,
                     "utilisateur/tabbord.html"
                 ),
 
+                // Tableau de bord entreprise
                 entreprise: resolve(
                     dossierFrontend,
                     "entreprise/tabbord.html"
                 ),
 
+                // Tableau de bord administrateur
                 administrateur: resolve(
                     dossierFrontend,
                     "administrateur/tabbord.html"
+                ),
+
+                // Page du footer
+                footer: resolve(
+                    dossierFrontend,
+                    "footer.html"
                 ),
             },
         },

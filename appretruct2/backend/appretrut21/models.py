@@ -1,4 +1,3 @@
-
 from django.conf import settings
 from django.core.validators import FileExtensionValidator
 from django.core.exceptions import ValidationError
@@ -174,8 +173,15 @@ class ProfilEntreprise(models.Model):
     )
 
     # Localisation
-    ville = models.CharField(max_length=100, blank=True)
-    adresse = models.CharField(max_length=255, blank=True)
+    ville = models.CharField(
+        max_length=100,
+        blank=True,
+    )
+
+    adresse = models.CharField(
+        max_length=255,
+        blank=True,
+    )
 
     latitude = models.FloatField(
         null=True,
@@ -264,4 +270,3 @@ class Administrateur(models.Model):
 
     def __str__(self):
         return f"{self.prenom} {self.nom}"
-
