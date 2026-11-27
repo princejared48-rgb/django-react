@@ -1,14 +1,13 @@
-
 /* ==========================================
    APPRETRUCT — SECTION FORMATIONS
-   Couleurs harmonisées avec le header
+   Cartes blanches sur fond clair
 ========================================== */
 
 .formations-section {
     width: 100%;
-    padding: 65px 6%;
-    background: #f5f8fc;
-    font-family: 'Poppins', sans-serif;
+    padding: 70px 6%;
+    background: transparent;
+    font-family: "Poppins", sans-serif;
 }
 
 .formations-container {
@@ -19,43 +18,45 @@
 /* TITRE */
 
 .formations-heading {
+    margin-bottom: 44px;
     text-align: center;
-    margin-bottom: 40px;
 }
 
 .formations-label {
     display: inline-block;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     padding: 7px 16px;
-    color: #124f91;
-    background: #e8f1fa;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    color: #1c56b8;
+    background: #e9f1ff;
+    border: 1px solid #b9d4ff;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
 }
 
 .formations-heading h2 {
-    margin-bottom: 12px;
-    color: #124f91;
-    font-size: clamp(28px, 4vw, 36px);
-    font-weight: 700;
+    margin: 0 0 14px;
+    color: #0d1b33;
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
 .formations-heading h2::after {
     content: "";
     display: block;
-    width: 50px;
+    width: 54px;
     height: 3px;
-    margin: 13px auto 0;
-    background: #ff6b35;
+    margin: 15px auto 0;
     border-radius: 3px;
+    background: linear-gradient(90deg, #ff6b35, #35c2ff);
 }
 
 .formations-heading p {
-    max-width: 600px;
+    max-width: 620px;
     margin: 0 auto;
-    color: #5e6f83;
+    color: #4a5c78;
     font-size: 14px;
     line-height: 1.8;
 }
@@ -65,26 +66,45 @@
 .formations-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
+    gap: 22px;
 }
 
 /* CARTES */
 
 .formation-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     min-width: 0;
     padding: 26px;
+    overflow: hidden;
     background: #ffffff;
-    border: 1px solid #e1eaf3;
-    border-radius: 10px;
-    box-shadow: 0 4px 14px rgba(8, 29, 60, 0.06);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid #e3eaf5;
+    border-radius: 16px;
+    box-shadow: 0 10px 26px rgba(16, 34, 64, 0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.formation-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #2f7fe8, transparent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
 }
 
 .formation-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 9px 22px rgba(8, 29, 60, 0.12);
+    transform: translateY(-6px);
+    border-color: rgba(255, 107, 53, 0.5);
+    box-shadow: 0 20px 42px rgba(16, 34, 64, 0.14);
+}
+
+.formation-card:hover::before {
+    opacity: 1;
 }
 
 /* ICÔNES */
@@ -97,33 +117,34 @@
     height: 52px;
     margin-bottom: 18px;
     color: #ffffff;
-    background: linear-gradient(135deg, #124f91, #1d8ed1);
-    border-radius: 9px;
-    font-size: 22px;
+    background: linear-gradient(135deg, #1b56c9, #1d9ae9);
+    border-radius: 13px;
+    box-shadow: 0 8px 20px rgba(30, 110, 220, 0.28);
+    font-size: 21px;
 }
 
 /* CONTENU */
 
 .formation-number {
     margin-bottom: 8px;
-    color: #ff6b35;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    color: #d4551f;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
 }
 
 .formation-card h3 {
-    margin-bottom: 10px;
-    color: #081d3c;
+    margin: 0 0 10px;
+    color: #0d1b33;
     font-size: 18px;
-    font-weight: 600;
-    line-height: 1.5;
+    font-weight: 700;
+    line-height: 1.4;
 }
 
 .formation-card p {
     flex-grow: 1;
-    margin-bottom: 22px;
-    color: #64748b;
+    margin: 0 0 22px;
+    color: #5a6c8a;
     font-size: 13px;
     line-height: 1.8;
 }
@@ -138,35 +159,41 @@
     width: 100%;
     padding: 12px 15px;
     color: #ffffff;
-    background: #124f91;
+    background: linear-gradient(110deg, #1b56c9, #1d9ae9);
     border: none;
-    border-radius: 6px;
+    border-radius: 9px;
     font-family: inherit;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .formation-button i {
     color: #ffffff;
     font-size: 13px;
+    transition: transform 0.2s ease;
 }
 
 .formation-button:hover {
-    background: #1d8ed1;
+    background: linear-gradient(110deg, #ff7a45, #ff5a1f);
+    box-shadow: 0 10px 24px rgba(255, 107, 53, 0.32);
+}
+
+.formation-button:hover i {
+    transform: translateX(4px);
 }
 
 /* TABLETTES */
 
 @media (max-width: 992px) {
     .formations-section {
-        padding: 50px 5%;
+        padding: 55px 5%;
     }
 
     .formations-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 20px;
+        gap: 18px;
     }
 }
 
@@ -174,12 +201,12 @@
 
 @media (max-width: 576px) {
     .formations-section {
-        padding: 40px 18px;
+        padding: 45px 18px;
     }
 
     .formations-grid {
         grid-template-columns: 1fr;
-        gap: 18px;
+        gap: 16px;
     }
 
     .formation-card {
@@ -195,7 +222,8 @@
 
 @media (prefers-reduced-motion: reduce) {
     .formation-card,
-    .formation-button {
+    .formation-button,
+    .formation-button i {
         transition: none;
     }
 

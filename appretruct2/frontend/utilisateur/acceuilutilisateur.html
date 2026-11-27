@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Espace candidat Appretruct : consultez votre profil et découvrez les formations."
+    >
+
+    <title>Accueil candidat | Appretruct</title>
+
+    <!-- Bootstrap 5.0.2 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+
+    <!-- Police Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Fond simple chargé avant React -->
+    <style>
+        html {
+            min-height: 100%;
+            background-color: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100%;
+            font-family: 'Poppins', sans-serif;
+            color: #17233c;
+            background: #ffffff;
+        }
+
+        main {
+            position: relative;
+            background: transparent;
+        }
+
+        /* Bandeau de raccourcis de l'espace candidat */
+        .espace-hero {
+            max-width: 1200px;
+            margin: 40px auto 10px;
+            padding: 0 18px;
+        }
+
+        .espace-hero-intro {
+            max-width: 720px;
+            margin: 0 auto 30px;
+            text-align: center;
+        }
+
+        .espace-hero-intro span {
+            display: inline-block;
+            margin-bottom: 12px;
+            padding: 6px 15px;
+            color: #1c56b8;
+            background: #e9f1ff;
+            border: 1px solid #b9d4ff;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.6px;
+        }
+
+        .espace-hero-intro h1 {
+            margin: 0 0 12px;
+            color: #0d1b33;
+            font-size: clamp(24px, 3.6vw, 34px);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .espace-hero-intro p {
+            margin: 0;
+            color: #4a5c78;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .espace-raccourcis {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .espace-carte {
+            display: block;
+            padding: 24px;
+            text-decoration: none;
+            background: #ffffff;
+            border: 1px solid #e3eaf5;
+            border-radius: 16px;
+            box-shadow: 0 10px 26px rgba(16, 34, 64, 0.08);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        }
+
+        .espace-carte:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 53, 0.5);
+            box-shadow: 0 18px 38px rgba(16, 34, 64, 0.14);
+        }
+
+        .espace-carte i {
+            display: grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 15px;
+            color: #ffffff;
+            background: linear-gradient(135deg, #1b56c9, #1d9ae9);
+            border-radius: 12px;
+            font-size: 19px;
+            box-shadow: 0 8px 20px rgba(30, 110, 220, 0.28);
+        }
+
+        .espace-carte.orange i {
+            background: linear-gradient(135deg, #ff7a45, #ff5a1f);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.28);
+        }
+
+        .espace-carte h2 {
+            margin: 0 0 8px;
+            color: #0d1b33;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .espace-carte p {
+            margin: 0;
+            color: #5a6c8a;
+            font-size: 12.5px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 860px) {
+            .espace-raccourcis {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .espace-hero {
+                margin-top: 26px;
+            }
+
+            .espace-raccourcis {
+                grid-template-columns: 1fr;
+            }
+
+            .espace-carte {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header React -->
+    <div id="page-header"></div>
+
+    <main>
+        <!-- Raccourcis de l'espace candidat -->
+        <section class="espace-hero">
+            <div class="espace-hero-intro">
+                <span>ESPACE CANDIDAT</span>
+                <h1>Bienvenue sur votre espace</h1>
+                <p>
+                    Retrouvez votre profil, complétez vos informations et
+                    découvrez les formations qui boostent votre carrière.
+                </p>
+            </div>
+
+            <div class="espace-raccourcis">
+                <a class="espace-carte" href="/utilisateur/tabbord.html">
+                    <i class="fa-solid fa-id-card"></i>
+                    <h2>Mon profil</h2>
+                    <p>
+                        Consultez vos informations, votre CV et complétez votre
+                        dossier de candidature.
+                    </p>
+                </a>
+
+                <a class="espace-carte" href="#formations">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <h2>Formations</h2>
+                    <p>
+                        Découvrez les parcours disponibles et évaluez vos
+                        connaissances.
+                    </p>
+                </a>
+
+                <a class="espace-carte orange" href="/acceuiltotal/acceuiltotal.html">
+                    <i class="fa-solid fa-globe"></i>
+                    <h2>Site public</h2>
+                    <p>
+                        Parcourez les offres et les opportunités accessibles à
+                        tous les visiteurs.
+                    </p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Section Carrousel -->
+        <section id="accueil-carrousel" class="container-fluid carrosel">
+            <div id="carrosel"></div>
+        </section>
+
+        <!-- Section des formations -->
+        <section id="formations">
+            <div id="formations-root"></div>
+        </section>
+    </main>
+
+    <!-- Footer React -->
+    <div id="footer-root"></div>
+
+    <!-- Chargement des composants React -->
+    <script type="module">
+
+        import React from "react";
+        import { createRoot } from "react-dom/client";
+
+        import Header from "../src/utilisateur/header.jsx";
+        import Footer from "../src/footer.jsx";
+        import Carrosel from "../src/carrosel.jsx";
+        import Formations from "../src/formation.jsx";
+
+        // Header
+        createRoot(
+            document.getElementById("page-header")
+        ).render(
+            React.createElement(Header)
+        );
+
+        // Carrousel
+        createRoot(
+            document.getElementById("carrosel")
+        ).render(
+            React.createElement(Carrosel)
+        );
+
+        // Cartes des formations
+        createRoot(
+            document.getElementById("formations-root")
+        ).render(
+            React.createElement(Formations)
+        );
+
+        // Footer
+        createRoot(
+            document.getElementById("footer-root")
+        ).render(
+            React.createElement(Footer)
+        );
+
+    </script>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

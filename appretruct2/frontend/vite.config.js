@@ -57,6 +57,18 @@ export default defineConfig({
                     "utilisateur/tabbord.html"
                 ),
 
+                // Accueil de l'espace candidat
+                accueilUtilisateur: resolve(
+                    dossierFrontend,
+                    "utilisateur/acceuilutilisateur.html"
+                ),
+
+                // Accueil de l'espace entreprise
+                accueilEntreprise: resolve(
+                    dossierFrontend,
+                    "entreprise/acceuilentreprise.html"
+                ),
+
                 // Tableau de bord entreprise
                 entreprise: resolve(
                     dossierFrontend,
@@ -69,10 +81,10 @@ export default defineConfig({
                     "administrateur/tabbord.html"
                 ),
 
-                // Page du footer
-                footer: resolve(
+                // Profil de l'administrateur
+                profilAdministrateur: resolve(
                     dossierFrontend,
-                    "footer.html"
+                    "administrateur/profil.html"
                 ),
             },
         },

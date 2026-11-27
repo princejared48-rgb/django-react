@@ -12,6 +12,17 @@
 
     <title>Mon profil | Appretruct</title>
 
+    <style>
+        html, body {
+            min-height: 100%;
+            background: #ffffff;
+        }
+
+        body {
+            margin: 0;
+        }
+    </style>
+
     <!-- Police Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,21 +40,35 @@
 </head>
 
 <body>
+    <div id="page-header"></div>
 
     <!-- Zone d'affichage du profil utilisateur avec React -->
     <div id="profil-utilisateur-root"></div>
 
+    <!-- Footer React -->
+    <div id="footer-root"></div>
+
     <!-- Chargement du composant React -->
     <script type="module">
         import React from "react";
+        import Header from "../src/utilisateur/header.jsx";
         import { createRoot } from "react-dom/client";
+        createRoot(document.getElementById("page-header")).render(React.createElement(Header));
         import ProfilUtilisateur from "/src/utilisateur/profil.jsx";
+        import Footer from "../src/footer.jsx";
 
         // Afficher le profil utilisateur
         createRoot(
             document.getElementById("profil-utilisateur-root")
         ).render(
             React.createElement(ProfilUtilisateur)
+        );
+
+        // Afficher le footer
+        createRoot(
+            document.getElementById("footer-root")
+        ).render(
+            React.createElement(Footer)
         );
     </script>
 

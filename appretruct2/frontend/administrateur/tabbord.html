@@ -30,59 +30,30 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-    <!-- CSS du tableau de bord -->
-    <link rel="stylesheet" href="./tabbord.css">
+    <!-- Fond neutre -->
+    <style>
+        html, body {
+            min-height: 100%;
+            background: #ffffff;
+        }
+
+        body {
+            margin: 0;
+        }
+    </style>
 
 </head>
 
 <body>
-
-    <!-- =========================================
-         HEADER
-    ========================================== -->
-
-
+    <div id="admin-header-root"></div>
 
     <!-- =========================================
          CONTENU PRINCIPAL
     ========================================== -->
 
-    <div class="admin-layout">
 
-        <!-- MENU LATÉRAL -->
-        <aside class="admin-sidebar">
 
-            <div class="sidebar-title">
-                MENU PRINCIPAL
-            </div>
 
-            <a
-                href="#dashboard"
-                class="sidebar-link active"
-            >
-                <i class="fas fa-chart-line"></i>
-                <span>Tableau de bord</span>
-            </a>
-
-            <a
-                href="#comptes-inscrits"
-                class="sidebar-link"
-            >
-                <i class="fas fa-users"></i>
-                <span>Comptes inscrits</span>
-            </a>
-
-            <div class="sidebar-separator"></div>
-
-            <a
-                href="/acceuiltotal/acceuiltotal.html"
-                class="sidebar-link"
-            >
-                <i class="fas fa-arrow-left"></i>
-                <span>Retour à l'accueil</span>
-            </a>
-
-        </aside>
 
 
         <!-- ZONE PRINCIPALE -->
@@ -109,14 +80,12 @@
 
         </main>
 
-    </div>
-
 
     <!-- =========================================
          FOOTER
     ========================================== -->
 
-    <footer id="footer-root"></footer>
+    <div id="footer-root"></div>
 
 
     <!-- =========================================
@@ -128,9 +97,13 @@
         import React from "react";
         import { createRoot } from "react-dom/client";
 
-        // Composants déjà créés
+        import HeaderAdmin from "../src/administrateur/header.jsx";
         import ComptesInscrits
             from "../src/administrateur/compteinscrit.jsx";
+
+        createRoot(
+            document.getElementById("admin-header-root")
+        ).render(React.createElement(HeaderAdmin));
 
         import Footer
             from "../src/footer.jsx";

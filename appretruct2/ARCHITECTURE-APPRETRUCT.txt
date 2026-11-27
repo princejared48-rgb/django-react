@@ -1,0 +1,1 @@
+Voir frontend/src/ARCHITECTURE.md. Préparation de l'organisation React ; backend Django conservé sans modification.

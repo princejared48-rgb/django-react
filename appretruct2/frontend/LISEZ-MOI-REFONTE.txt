@@ -1,0 +1,16 @@
+APPRETRUCT — REFONTE FRONTEND GALAXIE (bleu + orange)
+
+Cette archive reprend le frontend original fourni et conserve son organisation.
+Modifications :
+- Header galaxie cohérent avec le thème bleu/orange.
+- Menus Accueil et Tableau sur les espaces candidat, entreprise et administrateur.
+- Header public sur l'accueil total.
+- Tableau administrateur : comptes séparés en Entreprises, Candidats et Administrateurs.
+- Recherche et boutons Modifier / Supprimer pour chaque compte.
+- Carrousel conservé : les fichiers src/carrosel.jsx et src/carrosel.css ne sont pas modifiés.
+- Les autres composants, formations, profils et leur organisation sont conservés.
+
+IMPORTANT :
+L'API Django existante expose uniquement GET /api/administrateur/comptes/.
+Les boutons Modifier et Supprimer sont ajoutés à l'interface, mais la modification/suppression persistante n'est pas possible sans endpoints backend sécurisés. Les fenêtres l'indiquent clairement : aucun faux changement n'est enregistré.
+Copier le contenu du dossier frontend de cette archive dans le dossier frontend du projet en gardant l'arborescence.

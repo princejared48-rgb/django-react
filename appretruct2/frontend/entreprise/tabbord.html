@@ -8,6 +8,17 @@
 
 <title>Tableau de bord | Appretruct</title>
 
+<style>
+    html, body {
+        min-height: 100%;
+        background: #ffffff;
+    }
+
+    body {
+        margin: 0;
+    }
+</style>
+
 <!-- Police Poppins -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,19 +37,30 @@
 </head>
 
 <body>
+    <div id="page-header"></div>
     <!-- Zone d'affichage du composant React -->
     <div id="tabbord-root"></div>
+    <!-- Footer React -->
+    <div id="footer-root"></div>
 
 
 <!-- Chargement du composant React -->
 <script type="module">
     import React from "react";
+        import Header from "../src/entreprise/header.jsx";
     import { createRoot } from "react-dom/client";
+        createRoot(document.getElementById("page-header")).render(React.createElement(Header));
     import Tabbord from "/src/entreprise/profil.jsx";
+    import Footer from "../src/footer.jsx";
 
     // Tableau de bord entreprise
     createRoot(document.getElementById("tabbord-root")).render(
         React.createElement(Tabbord)
+    );
+
+    // Footer
+    createRoot(document.getElementById("footer-root")).render(
+        React.createElement(Footer)
     );
 </script>
 

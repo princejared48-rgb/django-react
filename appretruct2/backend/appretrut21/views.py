@@ -7,6 +7,7 @@ from django.contrib.auth import (
     get_user_model,
     login,
     logout,
+    update_session_auth_hash,
 )
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import FieldDoesNotExist, ValidationError
@@ -17,7 +18,7 @@ from django.middleware.csrf import get_token
 from django.utils.crypto import constant_time_compare
 from django.utils.dateparse import parse_date
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.http import require_GET, require_POST, require_http_methods
 
 from .models import (
     ProfilCompte,
@@ -49,6 +50,20 @@ def reponse_erreur(message, statut=400, details=None):
     return JsonResponse(resultat, status=statut)
 
 
+def echec_csrf(request, reason=""):
+    """
+    Réponse renvoyée par Django quand la vérification CSRF échoue.
+    Le frontend reçoit du JSON au lieu d'une page HTML, ce qui lui
+    permet d'afficher un message clair dans le formulaire.
+    """
+    return reponse_erreur(
+        "La vérification de sécurité a échoué. "
+        "Recharge la page, puis réessaie.",
+        statut=403,
+        details=reason,
+    )
+
+
 def lire_texte(donnees, champ):
     valeur = donnees.get(champ, "")
 
@@ -65,6 +80,102 @@ def lire_mot_de_passe(donnees, champ):
         return valeur
 
     return ""
+
+
+def appliquer_email(utilisateur, donnees):
+    """
+    Met à jour l'e-mail du compte si le champ est fourni.
+    Renvoie une réponse d'erreur, ou None si tout va bien.
+    """
+    if "email" not in donnees:
+        return None
+
+    nouvel_email = lire_texte(donnees, "email").lower()
+
+    if not nouvel_email:
+        return reponse_erreur("L'adresse e-mail ne peut pas être vide.")
+
+    if nouvel_email == (utilisateur.email or "").lower():
+        return None
+
+    try:
+        validate_email(nouvel_email)
+    except ValidationError:
+        return reponse_erreur("Adresse e-mail invalide.")
+
+    autres = get_user_model().objects.exclude(pk=utilisateur.pk)
+
+    if autres.filter(email__iexact=nouvel_email).exists():
+        return reponse_erreur(
+            "Cette adresse e-mail est déjà utilisée.",
+            statut=409,
+        )
+
+    if autres.filter(username__iexact=nouvel_email).exists():
+        return reponse_erreur(
+            "Cette adresse e-mail est déjà utilisée.",
+            statut=409,
+        )
+
+    utilisateur.email = nouvel_email
+
+    try:
+        utilisateur._meta.get_field("username")
+    except FieldDoesNotExist:
+        pass
+    else:
+        utilisateur.username = nouvel_email
+
+    return None
+
+
+def appliquer_mot_de_passe(utilisateur, donnees, exiger_actuel=True):
+    """
+    Change le mot de passe si 'nouveau_mot_de_passe' est fourni.
+    - exiger_actuel=True : l'utilisateur saisit son mot de passe actuel.
+    - exiger_actuel=False : réinitialisation par un administrateur.
+    Renvoie une réponse d'erreur, ou None si tout va bien.
+    """
+    nouveau = lire_mot_de_passe(donnees, "nouveau_mot_de_passe")
+
+    if not nouveau:
+        return None
+
+    if len(nouveau) < 8:
+        return reponse_erreur(
+            "Le nouveau mot de passe doit contenir au moins 8 caractères."
+        )
+
+    confirmation = lire_mot_de_passe(donnees, "confirmation")
+
+    if confirmation != nouveau:
+        return reponse_erreur(
+            "Les deux mots de passe ne correspondent pas."
+        )
+
+    if exiger_actuel:
+        actuel = lire_mot_de_passe(donnees, "mot_de_passe_actuel")
+
+        if not actuel:
+            return reponse_erreur("Saisis ton mot de passe actuel.")
+
+        if not utilisateur.check_password(actuel):
+            return reponse_erreur(
+                "Le mot de passe actuel est incorrect.",
+                statut=403,
+            )
+
+    try:
+        validate_password(nouveau, utilisateur)
+    except ValidationError as erreur:
+        return reponse_erreur(
+            "Ce mot de passe n'est pas assez robuste.",
+            details=erreur.messages,
+        )
+
+    utilisateur.set_password(nouveau)
+
+    return None
 
 
 def lire_donnees_requete(request):
@@ -662,6 +773,14 @@ def profil_utilisateur_api(request):
             else ""
         ),
         "ville": candidat.ville or "",
+        "domaine": candidat.domaine or "",
+        "titre_professionnel": candidat.titre_professionnel or "",
+        "annees_experience": candidat.annees_experience,
+        "experience": candidat.experience or "",
+        "competences": candidat.competences or "",
+        "presentation": candidat.presentation or "",
+        "linkedin": candidat.linkedin or "",
+        "portfolio": candidat.portfolio or "",
         "cv": candidat.cv.url if candidat.cv else "",
     })
 
@@ -705,6 +824,24 @@ def modifier_profil_utilisateur_api(request):
             "Impossible de lire les informations envoyées."
         )
 
+    utilisateur = request.user
+
+    erreur_email = appliquer_email(utilisateur, donnees)
+
+    if erreur_email:
+        return erreur_email
+
+    erreur_mot_de_passe = appliquer_mot_de_passe(
+        utilisateur, donnees
+    )
+
+    if erreur_mot_de_passe:
+        return erreur_mot_de_passe
+
+    mot_de_passe_change = bool(
+        lire_mot_de_passe(donnees, "nouveau_mot_de_passe")
+    )
+
     candidat.nom = (
         lire_texte(donnees, "nom") or candidat.nom
     )
@@ -720,6 +857,32 @@ def modifier_profil_utilisateur_api(request):
     candidat.ville = lire_texte(
         donnees, "ville"
     )
+
+    for champ in (
+        "domaine",
+        "titre_professionnel",
+        "experience",
+        "competences",
+        "presentation",
+        "linkedin",
+        "portfolio",
+    ):
+        if champ in donnees:
+            setattr(
+                candidat,
+                champ,
+                lire_texte(donnees, champ),
+            )
+
+    annees = lire_texte(donnees, "annees_experience")
+
+    if annees:
+        try:
+            candidat.annees_experience = max(0, int(annees))
+        except ValueError:
+            return reponse_erreur(
+                "Le nombre d'années d'expérience est invalide."
+            )
 
     date_naissance = lire_texte(
         donnees, "date_naissance"
@@ -749,8 +912,10 @@ def modifier_profil_utilisateur_api(request):
         candidat.cv = cv
 
     try:
-        candidat.full_clean()
-        candidat.save()
+        with transaction.atomic():
+            utilisateur.save()
+            candidat.full_clean()
+            candidat.save()
 
     except ValidationError as erreur:
         details = (
@@ -762,6 +927,16 @@ def modifier_profil_utilisateur_api(request):
             "Impossible d'enregistrer le profil.",
             details=details,
         )
+
+    except IntegrityError:
+        return reponse_erreur(
+            "Cette information est déjà utilisée.",
+            statut=409,
+        )
+
+    # Le mot de passe a changé : on garde la session ouverte.
+    if mot_de_passe_change:
+        update_session_auth_hash(request, utilisateur)
 
     return JsonResponse({
         "message": "Profil mis à jour avec succès.",
@@ -775,6 +950,14 @@ def modifier_profil_utilisateur_api(request):
             else ""
         ),
         "ville": candidat.ville or "",
+        "domaine": candidat.domaine or "",
+        "titre_professionnel": candidat.titre_professionnel or "",
+        "annees_experience": candidat.annees_experience,
+        "experience": candidat.experience or "",
+        "competences": candidat.competences or "",
+        "presentation": candidat.presentation or "",
+        "linkedin": candidat.linkedin or "",
+        "portfolio": candidat.portfolio or "",
         "cv": candidat.cv.url if candidat.cv else "",
     })
 
@@ -822,6 +1005,12 @@ def profil_entreprise_api(request):
         "ville": entreprise.ville or "",
         "adresse": entreprise.adresse or "",
         "description": entreprise.description or "",
+        "effectif": entreprise.effectif or "",
+        "annee_creation": (
+            entreprise.annee_creation
+            if entreprise.annee_creation
+            else ""
+        ),
         "document_presentation": (
             entreprise.document_presentation.url
             if entreprise.document_presentation
@@ -869,6 +1058,24 @@ def modifier_profil_entreprise_api(request):
             "Impossible de lire les informations envoyées."
         )
 
+    utilisateur = request.user
+
+    erreur_email = appliquer_email(utilisateur, donnees)
+
+    if erreur_email:
+        return erreur_email
+
+    erreur_mot_de_passe = appliquer_mot_de_passe(
+        utilisateur, donnees
+    )
+
+    if erreur_mot_de_passe:
+        return erreur_mot_de_passe
+
+    mot_de_passe_change = bool(
+        lire_mot_de_passe(donnees, "nouveau_mot_de_passe")
+    )
+
     champs_autorises = [
         "nom_entreprise",
         "domaine_activite",
@@ -890,6 +1097,16 @@ def modifier_profil_entreprise_api(request):
                 lire_texte(donnees, champ),
             )
 
+    annee = lire_texte(donnees, "annee_creation")
+
+    if annee:
+        try:
+            entreprise.annee_creation = int(annee)
+        except ValueError:
+            return reponse_erreur(
+                "L'année de création est invalide."
+            )
+
     document = fichiers.get("document_presentation")
 
     if document:
@@ -904,8 +1121,10 @@ def modifier_profil_entreprise_api(request):
         entreprise.document_presentation = document
 
     try:
-        entreprise.full_clean()
-        entreprise.save()
+        with transaction.atomic():
+            utilisateur.save()
+            entreprise.full_clean()
+            entreprise.save()
 
     except ValidationError as erreur:
         details = (
@@ -917,6 +1136,16 @@ def modifier_profil_entreprise_api(request):
             "Impossible d'enregistrer le profil de l'entreprise.",
             details=details,
         )
+
+    except IntegrityError:
+        return reponse_erreur(
+            "Cette information est déjà utilisée.",
+            statut=409,
+        )
+
+    # Le mot de passe a changé : on garde la session ouverte.
+    if mot_de_passe_change:
+        update_session_auth_hash(request, utilisateur)
 
     return JsonResponse({
         "message": "Profil de l'entreprise mis à jour.",
@@ -930,6 +1159,12 @@ def modifier_profil_entreprise_api(request):
         "ville": entreprise.ville or "",
         "adresse": entreprise.adresse or "",
         "description": entreprise.description or "",
+        "effectif": entreprise.effectif or "",
+        "annee_creation": (
+            entreprise.annee_creation
+            if entreprise.annee_creation
+            else ""
+        ),
         "document_presentation": (
             entreprise.document_presentation.url
             if entreprise.document_presentation
@@ -980,6 +1215,10 @@ def liste_comptes_administrateur_api(request):
             "role_libelle": profil.get_type_compte_display(),
             "date_inscription": profil.date_creation.isoformat(),
             "nom_affichage": "",
+            "nom": "",
+            "prenom": "",
+            "nom_entreprise": "",
+            "domaine_activite": "",
             "telephone": "",
             "ville": "",
             "domaine": "",
@@ -996,6 +1235,8 @@ def liste_comptes_administrateur_api(request):
                     "nom_affichage": (
                         f"{candidat.prenom} {candidat.nom}"
                     ),
+                    "nom": candidat.nom,
+                    "prenom": candidat.prenom,
                     "telephone": candidat.telephone or "",
                     "ville": candidat.ville or "",
                     "domaine": candidat.domaine or "",
@@ -1010,6 +1251,8 @@ def liste_comptes_administrateur_api(request):
             if entreprise:
                 compte.update({
                     "nom_affichage": entreprise.nom_entreprise,
+                    "nom_entreprise": entreprise.nom_entreprise,
+                    "domaine_activite": entreprise.domaine_activite,
                     "telephone": entreprise.telephone or "",
                     "ville": entreprise.ville or "",
                     "domaine": entreprise.domaine_activite or "",
@@ -1029,6 +1272,8 @@ def liste_comptes_administrateur_api(request):
                         f"{administrateur.prenom} "
                         f"{administrateur.nom}"
                     ),
+                    "nom": administrateur.nom,
+                    "prenom": administrateur.prenom,
                     "telephone": administrateur.telephone or "",
                 })
 
@@ -1040,8 +1285,272 @@ def liste_comptes_administrateur_api(request):
     })
 
 
+
+
 # ==========================================================
-# 10. DÉCONNEXION
+# 10. MODIFIER / SUPPRIMER UN COMPTE DEPUIS L'ADMINISTRATION
+# ==========================================================
+
+def _est_administrateur(request):
+    return request.user.is_authenticated and (
+        request.user.is_superuser
+        or ProfilCompte.objects.filter(
+            utilisateur=request.user,
+            type_compte="administrateur",
+        ).exists()
+    )
+
+
+@require_http_methods(["POST", "DELETE"])
+def gerer_compte_administrateur_api(request, compte_id):
+    """
+    Modification : POST JSON {email, nom, prenom, telephone, ville, domaine, ...}
+    Suppression : DELETE
+    Accès strictement réservé à un administrateur connecté.
+    """
+    if not request.user.is_authenticated:
+        return reponse_erreur("Connexion administrateur requise.", statut=401)
+    if not _est_administrateur(request):
+        return reponse_erreur("Accès réservé aux administrateurs.", statut=403)
+
+    profil = (
+        ProfilCompte.objects.select_related("utilisateur")
+        .filter(pk=compte_id).first()
+    )
+    if profil is None:
+        return reponse_erreur("Ce compte n'existe plus.", statut=404)
+
+    # Ne jamais autoriser l'admin à supprimer son propre compte depuis cette page.
+    if request.method == "DELETE":
+        if profil.utilisateur_id == request.user.id:
+            return reponse_erreur("Tu ne peux pas supprimer ton propre compte connecté.", statut=400)
+        if profil.utilisateur.is_superuser:
+            return reponse_erreur("La suppression d'un superutilisateur est bloquée ici.", statut=403)
+
+        utilisateur = profil.utilisateur
+        utilisateur.delete()  # CASCADE supprime le profil et ses données liées.
+        return JsonResponse({"message": "Compte supprimé avec succès.", "id": compte_id})
+
+    donnees, fichiers = lire_donnees_requete(request)
+    if donnees is None:
+        return reponse_erreur("Données de modification invalides.")
+
+    utilisateur = profil.utilisateur
+
+    # Un administrateur peut réinitialiser le mot de passe d'un compte
+    # sans connaître l'ancien (exiger_actuel=False).
+    erreur_mot_de_passe = appliquer_mot_de_passe(
+        utilisateur,
+        donnees,
+        exiger_actuel=False,
+    )
+
+    if erreur_mot_de_passe:
+        return erreur_mot_de_passe
+
+    nouvel_email = lire_texte(donnees, "email").lower()
+    if nouvel_email:
+        try:
+            validate_email(nouvel_email)
+        except ValidationError:
+            return reponse_erreur("Adresse e-mail invalide.")
+        if get_user_model().objects.filter(email__iexact=nouvel_email).exclude(pk=utilisateur.pk).exists():
+            return reponse_erreur("Cette adresse e-mail est déjà utilisée.", statut=409)
+        utilisateur.email = nouvel_email
+        try:
+            utilisateur._meta.get_field("username")
+        except FieldDoesNotExist:
+            pass
+        else:
+            utilisateur.username = nouvel_email
+
+    # Le rôle n'est volontairement pas modifiable ici : il détermine les droits.
+    try:
+        with transaction.atomic():
+            utilisateur.save()
+            if profil.type_compte == "utilisateur":
+                objet = ProfilCandidat.objects.filter(compte=profil).first()
+                if objet is None:
+                    return reponse_erreur("Profil candidat introuvable.", statut=404)
+                for champ in ("nom", "prenom", "telephone", "ville", "domaine",
+                              "titre_professionnel", "experience", "competences",
+                              "presentation", "linkedin", "portfolio"):
+                    if champ in donnees:
+                        setattr(objet, champ, lire_texte(donnees, champ))
+                objet.full_clean()
+                objet.save()
+
+            elif profil.type_compte == "entreprise":
+                objet = ProfilEntreprise.objects.filter(compte=profil).first()
+                if objet is None:
+                    return reponse_erreur("Profil entreprise introuvable.", statut=404)
+                for champ in ("nom_entreprise", "domaine_activite", "secteur_activite",
+                              "type_entreprise", "site_web", "telephone", "ville",
+                              "adresse", "description", "effectif"):
+                    if champ in donnees:
+                        setattr(objet, champ, lire_texte(donnees, champ))
+                objet.full_clean()
+                objet.save()
+
+            elif profil.type_compte == "administrateur":
+                objet = Administrateur.objects.filter(compte=profil).first()
+                if objet is None:
+                    return reponse_erreur("Profil administrateur introuvable.", statut=404)
+                for champ in ("nom", "prenom", "telephone"):
+                    if champ in donnees:
+                        setattr(objet, champ, lire_texte(donnees, champ))
+                objet.full_clean()
+                objet.save()
+
+    except ValidationError as erreur:
+        details = getattr(erreur, "message_dict", None) or erreur.messages
+        return reponse_erreur("Les informations saisies ne sont pas valides.", details=details)
+    except IntegrityError:
+        return reponse_erreur("Impossible d'enregistrer : une information est déjà utilisée.", statut=409)
+
+    return JsonResponse({"message": "Compte modifié avec succès.", "id": profil.id})
+
+
+# ==========================================================
+# 11. PROFIL DE L'ADMINISTRATEUR CONNECTÉ
+# ==========================================================
+
+@require_GET
+def profil_administrateur_api(request):
+    if not request.user.is_authenticated:
+        return reponse_erreur(
+            "Tu dois te connecter pour consulter ton profil.",
+            statut=401,
+        )
+
+    profil_compte = obtenir_profil_compte(
+        request, "administrateur"
+    )
+
+    if profil_compte is None:
+        return reponse_erreur(
+            "Accès réservé aux administrateurs.",
+            statut=403,
+        )
+
+    admin = Administrateur.objects.filter(
+        compte=profil_compte
+    ).first()
+
+    if admin is None:
+        return reponse_erreur(
+            "Le profil de l'administrateur est introuvable.",
+            statut=404,
+        )
+
+    return JsonResponse({
+        "nom": admin.nom,
+        "prenom": admin.prenom,
+        "email": request.user.email,
+        "telephone": admin.telephone or "",
+        "role": "administrateur",
+    })
+
+
+@require_POST
+def modifier_profil_administrateur_api(request):
+    if not request.user.is_authenticated:
+        return reponse_erreur(
+            "Tu dois te connecter pour modifier ton profil.",
+            statut=401,
+        )
+
+    profil_compte = obtenir_profil_compte(
+        request, "administrateur"
+    )
+
+    if profil_compte is None:
+        return reponse_erreur(
+            "Accès réservé aux administrateurs.",
+            statut=403,
+        )
+
+    admin = Administrateur.objects.filter(
+        compte=profil_compte
+    ).first()
+
+    if admin is None:
+        return reponse_erreur(
+            "Le profil de l'administrateur est introuvable.",
+            statut=404,
+        )
+
+    donnees, _fichiers = lire_donnees_requete(request)
+
+    if donnees is None:
+        return reponse_erreur(
+            "Impossible de lire les informations envoyées."
+        )
+
+    utilisateur = request.user
+
+    erreur_email = appliquer_email(utilisateur, donnees)
+
+    if erreur_email:
+        return erreur_email
+
+    erreur_mot_de_passe = appliquer_mot_de_passe(
+        utilisateur, donnees
+    )
+
+    if erreur_mot_de_passe:
+        return erreur_mot_de_passe
+
+    mot_de_passe_change = bool(
+        lire_mot_de_passe(donnees, "nouveau_mot_de_passe")
+    )
+
+    admin.nom = lire_texte(donnees, "nom") or admin.nom
+    admin.prenom = (
+        lire_texte(donnees, "prenom") or admin.prenom
+    )
+    admin.telephone = lire_texte(
+        donnees, "telephone"
+    )
+
+    try:
+        with transaction.atomic():
+            utilisateur.save()
+            admin.full_clean()
+            admin.save()
+
+    except ValidationError as erreur:
+        details = (
+            getattr(erreur, "message_dict", None)
+            or erreur.messages
+        )
+
+        return reponse_erreur(
+            "Impossible d'enregistrer le profil.",
+            details=details,
+        )
+
+    except IntegrityError:
+        return reponse_erreur(
+            "Cette information est déjà utilisée.",
+            statut=409,
+        )
+
+    if mot_de_passe_change:
+        update_session_auth_hash(request, utilisateur)
+
+    return JsonResponse({
+        "message": "Profil mis à jour avec succès.",
+        "nom": admin.nom,
+        "prenom": admin.prenom,
+        "email": request.user.email,
+        "telephone": admin.telephone or "",
+        "role": "administrateur",
+    })
+
+
+# ==========================================================
+# 12. DÉCONNEXION
 # ==========================================================
 
 @require_POST

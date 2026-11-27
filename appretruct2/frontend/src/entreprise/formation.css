@@ -1,0 +1,205 @@
+
+/* ==========================================
+   APPRETRUCT — SECTION FORMATIONS
+   Couleurs harmonisées avec le header
+========================================== */
+
+.formations-section {
+    width: 100%;
+    padding: 65px 6%;
+    background: #f5f8fc;
+    font-family: 'Poppins', sans-serif;
+}
+
+.formations-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* TITRE */
+
+.formations-heading {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.formations-label {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 7px 16px;
+    color: #124f91;
+    background: #e8f1fa;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.formations-heading h2 {
+    margin-bottom: 12px;
+    color: #124f91;
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 700;
+}
+
+.formations-heading h2::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 3px;
+    margin: 13px auto 0;
+    background: #ff6b35;
+    border-radius: 3px;
+}
+
+.formations-heading p {
+    max-width: 600px;
+    margin: 0 auto;
+    color: #5e6f83;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* GRILLE */
+
+.formations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+/* CARTES */
+
+.formation-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 26px;
+    background: #ffffff;
+    border: 1px solid #e1eaf3;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(8, 29, 60, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.formation-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 9px 22px rgba(8, 29, 60, 0.12);
+}
+
+/* ICÔNES */
+
+.formation-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 18px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #124f91, #1d8ed1);
+    border-radius: 9px;
+    font-size: 22px;
+}
+
+/* CONTENU */
+
+.formation-number {
+    margin-bottom: 8px;
+    color: #ff6b35;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.formation-card h3 {
+    margin-bottom: 10px;
+    color: #081d3c;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.formation-card p {
+    flex-grow: 1;
+    margin-bottom: 22px;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* BOUTONS */
+
+.formation-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 15px;
+    color: #ffffff;
+    background: #124f91;
+    border: none;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.formation-button i {
+    color: #ffffff;
+    font-size: 13px;
+}
+
+.formation-button:hover {
+    background: #1d8ed1;
+}
+
+/* TABLETTES */
+
+@media (max-width: 992px) {
+    .formations-section {
+        padding: 50px 5%;
+    }
+
+    .formations-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+}
+
+/* TÉLÉPHONES */
+
+@media (max-width: 576px) {
+    .formations-section {
+        padding: 40px 18px;
+    }
+
+    .formations-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .formation-card {
+        padding: 22px;
+    }
+
+    .formations-heading {
+        margin-bottom: 30px;
+    }
+}
+
+/* ACCESSIBILITÉ */
+
+@media (prefers-reduced-motion: reduce) {
+    .formation-card,
+    .formation-button {
+        transition: none;
+    }
+
+    .formation-card:hover {
+        transform: none;
+    }
+}

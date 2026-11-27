@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Profil de l'administrateur Appretruct."
+    >
+
+    <title>Mon profil | Administration Appretruct</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Fond neutre -->
+    <style>
+        html, body {
+            min-height: 100%;
+            background: #ffffff;
+        }
+
+        body {
+            margin: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Header React -->
+    <div id="admin-header-root"></div>
+
+    <!-- Profil administrateur -->
+    <div id="profil-admin-root"></div>
+
+    <!-- Footer React -->
+    <div id="footer-root"></div>
+
+    <!-- Chargement du composant React -->
+    <script type="module">
+
+        import React from "react";
+        import { createRoot } from "react-dom/client";
+
+        import HeaderAdmin from "../src/administrateur/header.jsx";
+        import ProfilAdministrateur
+            from "../src/administrateur/profil.jsx";
+        import Footer from "../src/footer.jsx";
+
+        createRoot(
+            document.getElementById("admin-header-root")
+        ).render(React.createElement(HeaderAdmin));
+
+        createRoot(
+            document.getElementById("profil-admin-root")
+        ).render(React.createElement(ProfilAdministrateur));
+
+        createRoot(
+            document.getElementById("footer-root")
+        ).render(React.createElement(Footer));
+
+    </script>
+
+</body>
+
+</html>

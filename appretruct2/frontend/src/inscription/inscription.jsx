@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import "../shared/galaxy.css";
 import "./inscription.css";
 
 // ======================================================
@@ -301,14 +302,20 @@ export default function Inscription() {
         <div className="inscription-page">
 
             <nav className="inscription-navbar">
-                <a href="/" className="inscription-logo">
-                    <i className="fas fa-briefcase"></i>
-                    Appretruct
+                <a
+                    href="/acceuiltotal/acceuiltotal.html"
+                    className="inscription-logo"
+                >
+                    <i className="fa-solid fa-atom"></i>
+                    APPRETRUCT
                 </a>
 
-                <a href="/" className="inscription-back">
-                    <i className="fas fa-arrow-left"></i>
-                    Accueil
+                <a
+                    className="inscription-back"
+                    href="/connexion/connexion.html"
+                >
+                    <i className="fa-solid fa-right-to-bracket"></i>
+                    Se connecter
                 </a>
             </nav>
 
@@ -866,12 +873,14 @@ export default function Inscription() {
                                 )}
                             </button>
 
-                            <div className="inscription-login">
-                                Tu as déjà un compte ?{" "}
-                                <a href="/connexion.html">
-                                    Connecte-toi
+                            <p className="inscription-login">
+                                Déjà un compte ?{" "}
+                                <a href="/connexion/connexion.html">
+                                    Se connecter
                                 </a>
-                            </div>
+                            </p>
+
+
 
                         </form>
                     </div>

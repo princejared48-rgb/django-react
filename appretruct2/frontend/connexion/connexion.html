@@ -8,6 +8,17 @@
 
     <title>Connexion | Appretruct</title>
 
+    <style>
+        html, body {
+            min-height: 100%;
+            background: #ffffff;
+        }
+
+        body {
+            margin: 0;
+        }
+    </style>
+
     <!-- Police Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,14 +40,8 @@
     <!-- Zone d'affichage de React -->
     <div id="connexion-root"></div>
 
-    <!-- Charger le composant connexion.jsx -->
-    <script type="module" src="/src/connexion/connexion.jsx">
-    createRoot(
-    document.getElementById("connexion-root")
-).render(
-    <Connexion />
-);
-</script>
+    <!-- Charger le composant connexion.jsx (il se monte lui-même) -->
+    <script type="module" src="/src/connexion/connexion.jsx"></script>
 
 </body>
 

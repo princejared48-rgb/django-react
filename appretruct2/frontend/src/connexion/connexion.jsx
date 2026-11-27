@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
+import "../shared/galaxy.css";
 import "./connexion.css";
 
 // ======================================================
@@ -18,7 +19,7 @@ function obtenirCookie(nom) {
     }
 
     return "";
-}4
+} 4
 
 
 // ======================================================
@@ -185,9 +186,17 @@ function Connexion() {
 
                 <div className="connexion-navbar">
 
-                    <a href="/" className="connexion-logo">
+                    <a
+                        href="/acceuiltotal/acceuiltotal.html"
+                        className="connexion-logo"
+                    >
+                        <i className="fa-solid fa-atom" />
                         APPRETRUCT
                     </a>
+
+                    <span className="connexion-tagline">
+                        Plateforme de recrutement
+                    </span>
 
                 </div>
 
@@ -225,11 +234,10 @@ function Connexion() {
                         {message && (
 
                             <div
-                                className={`connexion-message ${
-                                    typeMessage === "succes"
+                                className={`connexion-message ${typeMessage === "succes"
                                         ? "connexion-succes"
                                         : "connexion-erreur"
-                                }`}
+                                    }`}
                                 role="alert"
                             >
                                 {message}
@@ -311,16 +319,13 @@ function Connexion() {
 
                         </form>
 
-
-                        {/* LIEN VERS L'INSCRIPTION */}
-
-                        <p className="connexion-lien-inscription">
-                            Vous n'avez pas encore de compte ?
-                            {" "}
+                        <p className="connexion-switch">
+                            Pas encore de compte ?{" "}
                             <a href="/inscription/inscription.html">
-                                Inscrivez-vous
+                                Créer un compte
                             </a>
                         </p>
+
 
                     </section>
 

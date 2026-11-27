@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 
 from pathlib import Path
+import os
 
 # ============================================================
 # CONFIGURATION PRINCIPALE
@@ -150,13 +151,33 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # ============================================================
-# CONFIGURATION CORS : REACT <-> DJANGO
+# CONFIGURATION CORS ET CSRF : REACT (VITE) <-> DJANGO
 # ============================================================
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+# Le serveur de développement Vite occupe 5173, puis 5174, 5175...
+# lorsqu'un port est déjà utilisé. Comme le proxy transmet un en-tête
+# Origin correspondant au port réel du navigateur, on autorise toute
+# la plage locale afin que la connexion fonctionne quel que soit le port.
+PORTS_DEV = range(5173, 5201)
+
+ORIGINES_DEV = []
+
+for _port in PORTS_DEV:
+    ORIGINES_DEV.append(f"http://localhost:{_port}")
+    ORIGINES_DEV.append(f"http://127.0.0.1:{_port}")
+
+# Origines supplémentaires (production, autre domaine) :
+# variable d'environnement APPRETRUCT_ORIGINES_AUTORISEES,
+# plusieurs valeurs séparées par des virgules.
+for _origine in os.environ.get(
+    "APPRETRUCT_ORIGINES_AUTORISEES", ""
+).split(","):
+    _origine = _origine.strip()
+
+    if _origine and _origine not in ORIGINES_DEV:
+        ORIGINES_DEV.append(_origine)
+
+CORS_ALLOWED_ORIGINS = ORIGINES_DEV
 
 # Autoriser les cookies de session dans les requêtes React
 CORS_ALLOW_CREDENTIALS = True
@@ -166,10 +187,11 @@ CORS_ALLOW_CREDENTIALS = True
 # CONFIGURATION CSRF
 # ============================================================
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+CSRF_TRUSTED_ORIGINS = ORIGINES_DEV
+
+# En cas d'échec CSRF, renvoyer une réponse JSON exploitable par React
+# au lieu de la page d'erreur HTML de Django.
+CSRF_FAILURE_VIEW = "appretrut21.views.echec_csrf"
 
 
 # ============================================================

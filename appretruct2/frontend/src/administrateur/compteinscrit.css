@@ -1,3 +1,24 @@
+/* =========================================================
+   APPRETRUCT — GESTION DES COMPTES (ADMINISTRATEUR)
+   Thème clair — feuille unique.
+========================================================= */
+
+/* ================================================
+   STRUCTURE DE LA PAGE
+================================================ */
+
+.admin-main {
+    width: 100%;
+    min-height: calc(100vh - 82px);
+    padding: 54px clamp(16px, 4vw, 48px) 70px;
+    box-sizing: border-box;
+    background: transparent;
+}
+
+.admin-section {
+    width: min(1280px, 100%);
+    margin: 0 auto;
+}
 
 /* ================================================
    CONTENEUR PRINCIPAL
@@ -5,14 +26,15 @@
 
 .comptes-inscrits {
     width: 100%;
-    margin: 25px 0;
-    padding: 25px;
+    margin: 0 auto;
+    padding: 30px;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
+    color: #17233c;
     background: #ffffff;
-    border: 1px solid #e5edf6;
-    border-radius: 14px;
-    box-shadow: 0 5px 20px rgba(8, 29, 60, 0.07);
+    border: 1px solid #e3eaf5;
+    border-radius: 20px;
+    box-shadow: 0 14px 34px rgba(16, 34, 64, 0.1);
 }
 
 .comptes-inscrits *,
@@ -20,7 +42,6 @@
 .comptes-inscrits *::after {
     box-sizing: border-box;
 }
-
 
 /* ================================================
    EN-TÊTE
@@ -31,8 +52,17 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 22px;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.admin-kicker {
+    display: block;
+    margin-bottom: 7px;
+    color: #1c56b8;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2px;
 }
 
 .comptes-titre {
@@ -40,22 +70,21 @@
     align-items: center;
     gap: 10px;
     margin: 0 0 8px;
-    color: #081d3c;
-    font-size: 22px;
-    font-weight: 700;
+    color: #0d1b33;
+    font-size: 23px;
+    font-weight: 800;
 }
 
 .comptes-titre i {
-    color: #1d8ed1;
+    color: #2f7fe8;
 }
 
 .comptes-description {
     margin: 0;
-    color: #718096;
-    font-size: 13px;
+    color: #5a6c8a;
+    font-size: 12.5px;
     line-height: 1.7;
 }
-
 
 /* ================================================
    ACTIONS ET COMPTEUR
@@ -73,11 +102,33 @@
     align-items: center;
     gap: 8px;
     padding: 10px 15px;
-    color: #124f91;
-    background: #edf6ff;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
+    border: 1px solid #dde5f1;
+    border-radius: 9px;
+    color: #2c4a7c;
+    background: #f2f7ff;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.admin-inscription {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border-radius: 9px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #ff7a45, #ff5a1f);
+    box-shadow: 0 10px 24px rgba(255, 107, 53, 0.3);
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.admin-inscription:hover {
+    color: #ffffff;
+    filter: brightness(1.08);
+    transform: translateY(-1px);
 }
 
 .bouton-actualiser {
@@ -86,26 +137,260 @@
     justify-content: center;
     gap: 8px;
     padding: 10px 15px;
-    color: #ffffff;
-    background: #124f91;
     border: none;
-    border-radius: 8px;
+    border-radius: 9px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #1f5fce, #1d9ae9);
     font-family: inherit;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
     cursor: pointer;
-    transition: background 0.25s ease;
+    transition: filter 0.2s ease, transform 0.2s ease;
 }
 
 .bouton-actualiser:hover {
-    background: #081d3c;
+    filter: brightness(1.1);
+    transform: translateY(-1px);
 }
 
 .bouton-actualiser:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    transform: none;
 }
 
+/* ================================================
+   ONGLETS DES CATÉGORIES
+================================================ */
+
+.admin-group-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 24px 0 18px;
+}
+
+.admin-group-tabs button {
+    min-height: 62px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 15px;
+    border: 1px solid #e3eaf5;
+    border-radius: 12px;
+    background: #f7f9fd;
+    color: #45577a;
+    text-align: left;
+    cursor: pointer;
+    font: 600 11px Poppins, sans-serif;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.admin-group-tabs button i {
+    color: #2f7fe8;
+    font-size: 16px;
+}
+
+.admin-group-tabs button b {
+    margin-left: auto;
+    min-width: 25px;
+    padding: 5px 7px;
+    text-align: center;
+    border-radius: 20px;
+    background: #e8eef8;
+    color: #2c4a7c;
+    font-size: 10px;
+}
+
+.admin-group-tabs button:hover {
+    border-color: #c3d3ea;
+    background: #ffffff;
+}
+
+.admin-group-tabs button.active {
+    color: #ffffff;
+    background: linear-gradient(110deg, #1f5fce, #1558a8);
+    border-color: #1f5fce;
+    box-shadow: 0 10px 24px rgba(31, 95, 206, 0.28);
+}
+
+.admin-group-tabs button.active i,
+.admin-group-tabs button.active b {
+    color: #ffffff;
+}
+
+.admin-group-tabs button.active b {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* ================================================
+   RECHERCHE
+================================================ */
+
+.admin-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 430px;
+    margin: 18px 0 22px;
+    padding: 11px 14px;
+    border: 1px solid #dde5f1;
+    border-radius: 10px;
+    background: #f7f9fd;
+    color: #2f7fe8;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.admin-search:focus-within {
+    border-color: #ff6b35;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.14);
+}
+
+.admin-search input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #17233c;
+    font: 12px Poppins, sans-serif;
+}
+
+.admin-search input::placeholder {
+    color: #93a1b8;
+}
+
+.admin-search-effacer {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: #e6edf8;
+    color: #45577a;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.admin-search-effacer:hover {
+    background: #ff6b35;
+    color: #ffffff;
+}
+
+/* ================================================
+   MESSAGES
+================================================ */
+
+.admin-alert {
+    position: relative;
+    margin: 12px 0;
+    padding: 12px 38px 12px 14px;
+    border: 1px solid #c9dcf7;
+    border-radius: 9px;
+    background: #eef4ff;
+    color: #2c4a7c;
+    font-size: 11px;
+}
+
+.admin-alert button {
+    position: absolute;
+    right: 10px;
+    top: 4px;
+    border: 0;
+    background: none;
+    color: #2c4a7c;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.etat-message {
+    margin: 15px 0;
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.etat-chargement {
+    color: #2c4a7c;
+    background: #eef4ff;
+    border: 1px solid #d3e2f8;
+}
+
+.etat-erreur {
+    color: #9d2b2b;
+    background: #fff1f1;
+    border: 1px solid #f3c6c6;
+}
+
+/* ================================================
+   SECTION PAR RÔLE
+================================================ */
+
+.admin-role-section {
+    padding: 18px;
+    border: 1px solid #e7eef8;
+    border-radius: 14px;
+    background: #f9fbff;
+}
+
+.admin-role-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.admin-role-heading h3 {
+    margin: 0;
+    color: #0d1b33;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.admin-role-heading small {
+    color: #6b7c99;
+    font-size: 10px;
+}
+
+.admin-role-icon {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: #e6efff;
+    color: #1c56b8;
+    font-size: 15px;
+}
+
+.admin-role-icon.utilisateur {
+    background: #e3f7fb;
+    color: #0d7f95;
+}
+
+.admin-role-icon.administrateur {
+    background: #f0ebff;
+    color: #6b46c1;
+}
+
+.admin-role-icon.recherche {
+    background: #fff2ec;
+    color: #d4551f;
+}
+
+.admin-empty {
+    padding: 20px;
+    border: 1px dashed #cbd8ea;
+    border-radius: 9px;
+    color: #6b7c99;
+    text-align: center;
+    font-size: 11px;
+}
 
 /* ================================================
    TABLEAU
@@ -114,39 +399,38 @@
 .tableau-conteneur {
     width: 100%;
     overflow-x: auto;
-    border: 1px solid #e5edf6;
-    border-radius: 10px;
+    border: 1px solid #e3eaf5;
+    border-radius: 11px;
 }
 
 .comptes-inscrits table {
     width: 100%;
-    min-width: 850px;
+    min-width: 930px;
     border-collapse: collapse;
     background: #ffffff;
 }
 
 .comptes-inscrits thead {
-    background: linear-gradient(
-        110deg,
-        #081d3c,
-        #124f91
-    );
+    background: linear-gradient(100deg, #0b2450, #174f94);
 }
 
 .comptes-inscrits th {
-    padding: 15px 13px;
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 13px;
+    color: #f1f6ff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
     text-align: left;
+    text-transform: uppercase;
     white-space: nowrap;
 }
 
 .comptes-inscrits td {
-    padding: 14px 13px;
-    color: #334155;
-    font-size: 12px;
-    border-bottom: 1px solid #edf1f7;
+    padding: 13px;
+    color: #45577a;
+    border-bottom: 1px solid #eef2f9;
+    font-size: 10.5px;
+    line-height: 1.6;
 }
 
 .comptes-inscrits tbody tr {
@@ -154,7 +438,7 @@
 }
 
 .comptes-inscrits tbody tr:hover {
-    background: #f7fbff;
+    background: #f6f9ff;
 }
 
 .comptes-inscrits tbody tr:last-child td {
@@ -162,111 +446,225 @@
 }
 
 .nom-compte {
-    color: #081d3c !important;
+    color: #0d1b33 !important;
     font-weight: 600;
+}
+
+.account-id {
+    display: block;
+    margin-top: 3px;
+    color: #8494ad;
+    font-size: 9px;
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.role-badge.utilisateur {
+    background: #e3f7fb;
+    color: #0d7f95;
+}
+
+.role-badge.entreprise {
+    background: #e6efff;
+    color: #1c56b8;
+}
+
+.role-badge.administrateur {
+    background: #f0ebff;
+    color: #6b46c1;
 }
 
 .email-compte {
     overflow-wrap: anywhere;
 }
 
-
 /* ================================================
-   BADGES DES TYPES DE COMPTE
+   ACTIONS DU TABLEAU
 ================================================ */
 
-.badge-role {
-    display: inline-block;
-    padding: 6px 10px;
-    color: #124f91;
-    background: #eaf4ff;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
+.account-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.account-actions button {
+    padding: 7px 9px;
+    border-radius: 7px;
+    font: 600 9px Poppins, sans-serif;
     white-space: nowrap;
+    cursor: pointer;
+    transition: filter 0.2s ease, transform 0.2s ease;
 }
 
-.badge-entreprise {
-    color: #8a4b10;
-    background: #fff2df;
+.account-edit {
+    background: #eef4ff;
+    border: 1px solid #c9dcf7;
+    color: #1c56b8;
 }
 
-.badge-document {
-    color: #176b43;
-    background: #e6f8ee;
+.account-delete {
+    background: #fff1f1;
+    border: 1px solid #f3c6c6;
+    color: #b33636;
 }
 
-.badge-absence {
-    color: #64748b;
-    background: #f1f5f9;
+.account-actions button:hover {
+    filter: brightness(0.97);
+    transform: translateY(-1px);
 }
-
-
-/* ================================================
-   MESSAGES
-================================================ */
-
-.etat-message {
-    margin: 15px 0;
-    padding: 16px;
-    border-radius: 8px;
-    font-size: 13px;
-    line-height: 1.7;
-}
-
-.etat-erreur {
-    color: #a61b1b;
-    background: #fff0f0;
-    border: 1px solid #ffcaca;
-}
-
-.etat-vide {
-    color: #64748b;
-    background: #f8fafc;
-    text-align: center;
-}
-
-.etat-vide i {
-    display: block;
-    margin-bottom: 12px;
-    font-size: 30px;
-}
-
-.etat-vide p {
-    margin: 0;
-}
-
-.etat-chargement {
-    color: #124f91;
-    background: #edf6ff;
-    text-align: center;
-}
-
 
 /* ================================================
    PIED DU TABLEAU
 ================================================ */
 
 .comptes-pied {
-    margin: 15px 0 0;
-    color: #718096;
-    font-size: 11px;
+    margin: 16px 0 0;
+    color: #6b7c99;
+    font-size: 10.5px;
     line-height: 1.7;
 }
 
 .comptes-pied i {
     margin-right: 5px;
-    color: #1d8ed1;
+    color: #2f7fe8;
 }
 
+/* ================================================
+   FENÊTRE DE MODIFICATION
+================================================ */
+
+.account-modal-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 2200;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    background: rgba(11, 23, 44, 0.45);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+.account-modal {
+    position: relative;
+    width: min(520px, 100%);
+    max-height: 90vh;
+    overflow: auto;
+    padding: 26px;
+    border: 1px solid #e3eaf5;
+    border-radius: 16px;
+    color: #17233c;
+    background: #ffffff;
+    box-shadow: 0 24px 60px rgba(16, 34, 64, 0.25);
+}
+
+.account-modal h3 {
+    margin: 7px 0 20px;
+    color: #0d1b33;
+    font-size: 19px;
+}
+
+.modal-x {
+    position: absolute;
+    right: 14px;
+    top: 8px;
+    border: 0;
+    background: none;
+    color: #5a6c8a;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.edit-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.edit-fields label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: #4a5c78;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.edit-fields input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #dde5f1;
+    border-radius: 8px;
+    outline: none;
+    background: #f7f9fd;
+    color: #17233c;
+    font: 11px Poppins, sans-serif;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edit-fields input:focus {
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.14);
+}
+
+.edit-fields-mdp {
+    grid-template-columns: 1fr;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #eef2f9;
+}
+
+.modal-note {
+    margin: 15px 0;
+    padding: 10px;
+    border-radius: 8px;
+    background: #eef4ff;
+    color: #2c4a7c;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.modal-close {
+    width: 100%;
+    padding: 12px;
+    border: 0;
+    border-radius: 9px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #ff7a45, #ff5a1f);
+    box-shadow: 0 12px 26px rgba(255, 107, 53, 0.3);
+    font-weight: 700;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.modal-close:hover {
+    filter: brightness(1.08);
+}
+
+.modal-close:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
 
 /* ================================================
    RESPONSIVE
 ================================================ */
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+    .admin-main {
+        padding: 28px 14px 50px;
+    }
+
     .comptes-inscrits {
-        padding: 16px;
+        padding: 18px;
+        border-radius: 16px;
     }
 
     .comptes-titre {
@@ -277,11 +675,42 @@
         align-items: flex-start;
     }
 
-    .comptes-actions {
+    .comptes-actions,
+    .admin-inscription,
+    .bouton-actualiser {
         width: 100%;
+        justify-content: center;
     }
 
-    .bouton-actualiser {
-        flex: 1;
+    .admin-group-tabs {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-group-tabs button {
+        min-height: 52px;
+    }
+
+    .admin-search {
+        max-width: 100%;
+    }
+
+    .edit-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .account-actions {
+        flex-direction: column;
+    }
+
+    .account-actions button {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .comptes-inscrits *,
+    .comptes-inscrits *::before,
+    .comptes-inscrits *::after {
+        transition: none !important;
     }
 }

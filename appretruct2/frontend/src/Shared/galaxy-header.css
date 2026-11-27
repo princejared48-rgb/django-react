@@ -1,0 +1,12 @@
+.galaxy-header{position:sticky;top:0;z-index:1200;min-height:78px;padding:12px clamp(16px,4vw,52px);display:flex;align-items:center;justify-content:space-between;gap:20px;color:#fff;background:radial-gradient(ellipse at 80% -80%,#3266c9 0%,transparent 55%),linear-gradient(110deg,#050b1d 0%,#0a1c42 54%,#102e68 100%);border-bottom:2px solid #ff6b35;box-shadow:0 9px 32px #02081755;overflow:hidden}
+.galaxy-header:before,.galaxy-header:after{content:"";position:absolute;pointer-events:none;border:1px solid #6da4ff25;border-radius:50%;width:380px;height:110px;transform:rotate(-18deg);right:12%;top:-65px}
+.galaxy-header:after{width:520px;height:160px;right:7%;top:-95px;border-color:#ff8b4b20}
+.galaxy-brand,.galaxy-nav,.galaxy-login{position:relative;z-index:1}
+.galaxy-brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:#fff;font-weight:800;font-size:15px;letter-spacing:1.5px;white-space:nowrap}
+.galaxy-brand:hover{color:#fff}.galaxy-brand small{display:block;margin-top:4px;color:#aabfe7;font-size:8px;letter-spacing:1.7px}
+.galaxy-symbol{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#1b4fc4,#168edb);box-shadow:0 0 22px #2879ff65;font-size:19px}
+.galaxy-nav{display:flex;align-items:center;gap:8px}
+.galaxy-nav a,.galaxy-login{padding:10px 15px;border-radius:9px;text-decoration:none;color:#e6edff;font-size:11px;font-weight:700;border:1px solid #a7c5ff25;transition:.2s}
+.galaxy-nav a i{margin-right:8px;color:#8cb8ff}.galaxy-nav a:hover{background:#ffffff17;border-color:#ff6b35;color:white}
+.galaxy-login{background:#ff6b35;border-color:#ff8b60;color:white}.galaxy-login:hover{background:#e95625;color:white}
+@media(max-width:650px){.galaxy-header{flex-wrap:wrap;gap:10px}.galaxy-nav{order:3;width:100%}.galaxy-nav a{flex:1;text-align:center}.galaxy-brand{font-size:13px}.galaxy-login{padding:9px 11px}}

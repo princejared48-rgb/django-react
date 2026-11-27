@@ -1,0 +1,9 @@
+body{background:#070d1c;color:#eaf1ff;font-family:Poppins,sans-serif}.admin-layout{background:transparent}.admin-sidebar{background:#07142e;border-right:1px solid #29436f}.sidebar-link{color:#d9e5ff;border-radius:9px}.sidebar-link:hover,.sidebar-link.active{background:#174e91;border-left:3px solid #ff6b35}
+
+html,body{min-height:100%;background:#ffffff!important}
+.admin-layout{background:transparent!important;min-height:calc(100vh - 82px)}
+.admin-sidebar{background:linear-gradient(180deg,#06132cdd,#071b3bdd)!important;border-right:1px solid #294a7d!important;backdrop-filter:blur(10px)}
+.admin-main{background:transparent!important;color:#eaf2ff}
+.sidebar-title{color:#91b6f1!important}.sidebar-link{color:#dce8ff!important;border-radius:9px}
+.sidebar-link:hover,.sidebar-link.active{background:linear-gradient(90deg,#103b83,#174e91)!important;border-left:3px solid #ff6b35}
+.admin-section{background:transparent!important}

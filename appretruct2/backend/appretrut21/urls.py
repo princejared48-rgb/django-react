@@ -81,4 +81,23 @@ urlpatterns = [
         views.liste_comptes_administrateur_api,
         name="liste_comptes_administrateur_api",
     ),
+    path(
+        "administrateur/comptes/<int:compte_id>/",
+        views.gerer_compte_administrateur_api,
+        name="gerer_compte_administrateur_api",
+    ),
+
+    # Profil de l'administrateur connecté
+    path(
+        "administrateur/profil/",
+        views.profil_administrateur_api,
+        name="profil_administrateur_api",
+    ),
+
+    # Modifier le profil de l'administrateur connecté
+    path(
+        "administrateur/profil/modifier/",
+        views.modifier_profil_administrateur_api,
+        name="modifier_profil_administrateur_api",
+    ),
 ]
